@@ -115,7 +115,7 @@
 				),
 				'public' => ( $val[ 'public' ] == 1 ? true : false ),
 				'menu_position' => 6,
-				'supports' => array( 'title', 'editor', 'thumbnail', 'custom-fields' ),
+				'supports' => array( 'author', 'custom-fields', 'editor', 'thumbnail', 'title' ),
 				'taxonomies' => array( 'category' ),
 				'has_archive' => ( $val[ 'archive' ] == 1 ? true : false )
 			) );

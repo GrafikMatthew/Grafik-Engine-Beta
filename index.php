@@ -182,6 +182,7 @@
 	# THEME OUTPUT
 	#
 
+	global $wp_query;
 	echo
 	/*
 	"\n<!-- GRAFIK_OBJECT_ID: ".$GRAFIK_OBJECT_ID." -->".
