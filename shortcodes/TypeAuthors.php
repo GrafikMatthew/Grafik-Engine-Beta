@@ -13,12 +13,13 @@
 
 		global $wp_query;
 		global $GRAFIK_MODE;
+		$callback_output = '';
 
 		$a = shortcode_atts( array(
 			'type' => 'post',
 			'class' => '',
 			'id' => ''
-		), $atts, 'TypeArchive' );
+		), $atts, 'TypeAuthors' );
 
 		// Construct the query...
 		$callback_query = new WP_Query( array(
@@ -39,11 +40,23 @@
 			$callback_output .= '<span class="empty-message">'.$a['empty_msg'].'</span>';
 		}
 
-		$callback_output = '<!-- '.print_r( $callback_authors, true).' -->';
+		// Loop the results...
+		foreach( $callback_authors as $key => $val ) {
+			$callback_output .=
+			'<li class="ge-typeauthors-item">'.
+				'<a href="'.esc_url( get_author_posts_url( $key ) ).'" class="ge-typeauthors-link">'.
+					'<span class="ge-typeauthors-name">'.get_the_author_meta( 'display_name', $key ).'</span>'.
+					'<span class="ge-typeauthors-count">'.$val.'</span>'.
+				'</a>'.
+			'</li>';
+		}
+
+		if( empty( $callback_output ) ) return '';
 
 		return
-		'<div class="theme-typeauthors'.(empty($a['class']) ? null : ' '.$a['class']).'"'.(empty($a['id']) ? null : ' id="'.$a['id'].'"').'>'.
-			$callback_output.
+		'<div class="ge-typeauthors-container'.(empty($a['class']) ? null : ' '.$a['class']).'"'.(empty($a['id']) ? null : ' id="'.$a['id'].'"').'>'.
+			'<div class="ge-typeauthors-content">'.$content.'</div>'.
+			'<ul class="ge-typeauthors-list">'.$callback_output.'</ul>'.
 		'</div>';
 
 	}

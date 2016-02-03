@@ -1,0 +1,74 @@
+Grafik_Engine_Type_Templates = array(
+	"type-slug" => array(
+		"save" => array(
+			"time" => (int)$,
+			"user" => (int)
+		),
+		"styles" => (string)$,
+		"header" => array(
+			"top" => array(
+				"left" => (string)$,
+				"right" => (string)$
+			),
+			"middle" => array(
+				"left" => (string)$,
+				"right" => (string)$
+			),
+			"bottom" => array(
+				"left" => (string)$,
+				"right" => (string)$
+			)
+		),
+		"content" => array(
+			"top" => (string)$,
+			"middle" => array(
+				"left" => (string)$,
+				"center" => (string)$,
+				"right" => (string)$
+			),
+			"bottom" => (string)$
+		),
+		"footer" => array(
+			"top" => array(
+				"left" => (string)$,
+				"right" => (string)$
+			),
+			"middle" => array(
+				"left" => (string)$,
+				"right" => (string)$
+			),
+			"bottom" => array(
+				"left" => (string)$,
+				"right" => (string)$
+			)
+		),
+		"scripts" => (string)$
+	),
+	...
+);
+
+Grafik_Engine_Type_Labels = array(
+	"type-slug" => array(
+		"save" => array(
+			"time" => (int)$,
+			"user" => (int)
+		),
+		"singular" => (string)$,
+		"plural" => (string)$
+	),
+	...
+)
+
+Grafik_Engine_Type_Structures = array(
+	"type-slug" => array(
+		"save" => array(
+			"time" => (int)$,
+			"user" => (int)
+		),
+		"default" => (string)$,
+		"author" => (string)$, // May not be possible...
+		"category" => (string)$,
+		"detail" => (string)$
+	),
+	...
+);
