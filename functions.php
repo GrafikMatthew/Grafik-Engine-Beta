@@ -129,4 +129,34 @@
 		remove_submenu_page( 'themes.php', 'theme-editor.php' );
 	}, 102 );
 
+	// Custom General Options
+	class Grafik_GeneralSetting_AdminMenu_HidePosts {
+		function Grafik_GeneralSetting_AdminMenu_HidePosts() {
+			add_filter( 'admin_init', array( &$this, 'register_fields' ) );
+		}
+		function register_fields() {
+			register_setting(
+				'general',
+				'Grafik_AdminMenu_HidePosts',
+				'esc_attr'
+			);
+			add_settings_field(
+				'Grafik_AdminMenu_HidePosts',
+				'<label for="Grafik_AdminMenu_HidePosts">Hide Posts from Admin Menu</label>',
+				array( &$this, 'fields_html' ),
+				'general'
+			);
+		}
+		function fields_html() {
+			$value = get_option( 'Grafik_AdminMenu_HidePosts', '' );
+			echo '<input type="checkbox" id="Grafik_AdminMenu_HidePosts" name="Grafik_AdminMenu_HidePosts"'.( $value == 'on' ? ' checked' : '' ).' />';
+		}
+	}
+	$Grafik_GSAMHP = new Grafik_GeneralSetting_AdminMenu_HidePosts();
+	if( get_option( 'Grafik_AdminMenu_HidePosts', '' ) == 'on' ) {
+		add_action( 'admin_menu', function() {
+			remove_menu_page( 'edit.php' );
+		} );
+	}
+
 ?>
