@@ -131,131 +131,16 @@
 		$display_subtitle = '<h3>'.$display_subtitle.'</h3>';
 
 		#
-		# BUILD DISPLAY BODY
+		# BUILD FORM
 		#
 
-		$display_body = '';
-		switch( $mapped_func ) {
-
-			case 'edit':
-				if( empty( $mapped_data ) ) {
-					$display .=
-					'<h3>'
-				} else {
-					$diplay 
-				}
-
-
-
-					$callback_output_temp .=
-					'<h2>'.Grafik_ReadDecode( $options_index[ $callback_edit ][ 'plural' ] ).'</h2>'.
-					'<div class="grafik-functions-secondarynav">'.
-						'<ul>'.
-							'<li'.( $callback_data != 'template' && $callback_data != 'structure' ? ' class="active"' : '' ).'>'.
-								'<a href="?page=ge-posttypes&amp;func=edit&amp;edit='.$callback_edit.'">Info</a>'.
-							'</li>'.
-							'<li'.( $callback_data == 'template' ? ' class="active"' : '' ).'>'.
-								'<a href="?page=ge-posttypes&amp;func=edit&amp;edit='.$callback_edit.'&amp;data=template">Template</a>'.
-							'</li>'.
-							'<li'.( $callback_data == 'structure' ? ' class="active"' : '' ).'>'.
-								'<a href="?page=ge-posttypes&amp;func=edit&amp;edit='.$callback_edit.'&amp;data=structure">Structure</a>'.
-							'</li>'.
-						'</ul>'.
-					'</div>'.
-					'<div class="grafik-functions-secondarydisplay">'.
-					'</div>';
-
-				} else {
-
-					$callback_output_temp .=
-					'<h2>Edit</h2>'.
-					'<div class="grafik-functions-secondarynav">'.
-						'<ul>'.
-							'<li><a href="#">Info</a></li>'.
-							'<li><a href="#">Template</a></li>'.
-							'<li><a href="#">Structure</a></li>'.
-						'</ul>'.
-					'</div>'.
-					'<div class="grafik-functions-secondarydisplay">'.
-						'<p><strong>Error:</strong> Post Type Not Found</p>'.
-					'</div>';
-
-				}
-
-				
-				break;
-			default:
-				$callback_output_temp .=
-				'<h2>Create Type</h2>'.
-				'<div class="grafik-functions-secondarynav">'.
-					'<ul>'.
-						'<li class="active"><a href="#">Info</a></li>'.
-						'<li><a href="#">Template</a></li>'.
-						'<li><a href="#">Structure</a></li>'.
-					'</ul>'.
-				'</div>'.
-				'<div class="grafik-functions-secondarydisplay">'.
-				'</div>';
-				break;
+		$display_form = '';
+		if( empty( $mapped_func ) || empty( $mapped_edit ) || empty( $mapped_data ) ) {
+			$display_form .= '<p>Requested operation cannot be performed.</p>';
+		} else {
+			$display_form .= '<p>Controls go here!</p>';
 		}
-		$callback_output .=
-		'<div class="grafik-functions-primarydisplay">'.
-			$callback_output_temp.
-		'</div>';
-
-		/*
-		$callback_output = '';
-		if( empty( $_GET[ 'option' ] ) ) $_GET[ 'option' ] = null;
-		switch( $_GET[ 'option' ] ) {
-
-			case 'create':
-
-				// CREATOR VIEW
-				$callback_title = 'Post Types: Create';
-				break;
-
-			case 'edit':
-
-				// EDITOR VIEW
-				$callback_title = 'Post Types: Edit';
-				break;
-
-			default:
-
-				// GENERAL VIEW
-				$callback_title = 'Post Types';
-
-				
-
-					if( !is_array( $val ) ) continue;
-					$callback_typecount = wp_count_posts( $key );
-					$callback_output .=
-					'<tr>'.
-						'<td>'.$key.'</td>'.
-						'<td>'.Grafik_ReadDecode ( $val[ 'plural' ] ).'</td>'.
-						'<td>'.Grafik_ReadDecode ( $val[ 'singular' ] ).'</td>'.
-						'<td>'.$callback_typecount->publish.'</td>'.
-						'<td><a href="?page=ge-posttypes&amp;option=edit&amp;id='.$key.'">Edit</td>'.
-					'</tr>';
-				}
-				$callback_output =
-				'<table class="grafik-posttypes-general">'.
-					'<tr>'.
-						'<th>ID</th>'.
-						'<th>Plural Form</th>'.
-						'<th>Single Form</th>'.
-						'<th>Published Posts</th>'.
-						'<th>Options</th>'.
-					'</tr>'.
-					'<tr><td colspan="5"><hr/></td></tr>'.
-					$callback_output.
-					'<tr><td colspan="5"><hr/></td></tr>'.
-					'<tr><td colspan="5"><a href="?page=ge-posttypes&amp;option=create">Create Type</a></td></tr>'.
-				'</table>';
-				break;
-
-		}
-		*/
+		$display_form = '<form method="POST">'.$display_form.'</form>';
 
 		#
 		# RETURN INTERFACE
