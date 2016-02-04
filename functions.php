@@ -12,7 +12,7 @@
 	include 'functions/utilities.php';
 
 	include 'admin/categoryfilters.php';
-	include 'admin/customtypes.php';
+	include 'admin/posttypes.php';
 	include 'admin/metabox.php';
 	include 'admin/templates.php';
 
@@ -94,7 +94,7 @@
 		) );
 
 		// Custom Types...
-		$Grafik_CustomTypes = json_decode( get_option('Grafik_CustomTypes', '[]'), true );
+		$Grafik_CustomTypes = json_decode( get_option('Grafik_PostTypes', '[]'), true );
 		foreach( $Grafik_CustomTypes as $key => $val ) {
 			if( $key == 'save-time' || $key == 'save-user' ) continue;
 			register_post_type( $key, array(
