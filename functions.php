@@ -142,14 +142,14 @@
 			);
 			add_settings_field(
 				'Grafik_AdminMenu_HidePosts',
-				'<label for="Grafik_AdminMenu_HidePosts">Hide Posts from Admin Menu</label>',
+				'<label for="Grafik_AdminMenu_HidePosts">Posts Menu</label>',
 				array( &$this, 'fields_html' ),
 				'general'
 			);
 		}
 		function fields_html() {
 			$value = get_option( 'Grafik_AdminMenu_HidePosts', '' );
-			echo '<input type="checkbox" id="Grafik_AdminMenu_HidePosts" name="Grafik_AdminMenu_HidePosts"'.( $value == 'on' ? ' checked' : '' ).' />';
+			echo '<input type="checkbox" id="Grafik_AdminMenu_HidePosts" name="Grafik_AdminMenu_HidePosts"'.( $value == 'on' ? ' checked' : '' ).' /> Check to Hide';
 		}
 	}
 	$Grafik_GSAMHP = new Grafik_GeneralSetting_AdminMenu_HidePosts();
