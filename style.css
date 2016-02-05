@@ -26,6 +26,22 @@ Text Domain: grafik-engine
  * GRAFIK FUNCTIONS
  */
 
+	/*
+	*[disabled="disabled"] {
+		position: relative;
+	}
+	*[disabled="disabled"]::before {
+		content: "\f160";
+		display: block;
+		font: 400 20px/1 dashicons;
+		color: #82878c;
+		position: absolute;
+		z-index: 1;
+		top: 0;
+		left: 0;
+	}
+	*/
+
 	.last-update { padding: 0 12px; height: 30px; line-height: 30px; }
 
 	.grafik-functions .cheat-sheet { border: 10px solid #eee; border-radius: 5px; border-collapse: separate; border-spacing: 10px; font-size: 10px; background: #eee; }
@@ -53,7 +69,8 @@ Text Domain: grafik-engine
 	.grafik-functions p:first-child,
 	.grafik-functions ul:first-child { margin: 0; }
 
-	.grafik-functions textarea { display: block; border: 1px solid #ccc; padding: 5px; width: 100%; height: 250px; font-family: monospace; font-size: 12px; white-space: pre; word-wrap: normal; overflow-wrap: normal; overflow-x: auto; resize: none; }
+	.grafik-functions input[type="text"] { border: 1px solid #ccc; padding: 5px; width: 100%; font-size: inherit; }
+	.grafik-functions textarea { display: block; border: 1px solid #ccc; padding: 5px; width: 100%; height: 250px; font-family: monospace; font-size: inherit; white-space: pre; word-wrap: normal; overflow-wrap: normal; overflow-x: auto; resize: none; }
 
 	.grafik-functions-display { margin: -10px 0 0 0; border: 10px solid #000; padding: 5px; background: #fff; position: relative; z-index: 2; }
 	.grafik-functions-display:after { content: ""; clear: both; display: block; float: none; height: 0; }

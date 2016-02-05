@@ -31,11 +31,6 @@
 		wp_enqueue_style( 'grafik-css', get_template_directory_uri().'/style.css', false );
 	}
 
-	/*
-	wp_register_style( 'grafik-theme', get_template_directory_uri().'/style.css', false, '1.0.0' );
-	wp_enqueue_style( 'grafik-theme' );
-	*/
-
 	#
 	# THEME SUPPORT
 	#
@@ -94,7 +89,7 @@
 		) );
 
 		// Custom Types...
-		$Grafik_CustomTypes = json_decode( get_option('Grafik_PostTypes', '[]'), true );
+		$Grafik_CustomTypes = json_decode( get_option('Grafik_PostTypes_Info', '[]'), true );
 		foreach( $Grafik_CustomTypes as $key => $val ) {
 			if( $key == 'save-time' || $key == 'save-user' ) continue;
 			register_post_type( $key, array(
