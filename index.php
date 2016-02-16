@@ -15,7 +15,20 @@
 
 	$GRAFIK_OBJECT = get_queried_object();
 	$GRAFIK_OBJECT_ID = get_queried_object_id();
-
+	$GRAFIK_MODE = array(
+		"is_404" => is_404(),
+		"is_archive" => is_archive(),
+		"is_attachment" => is_attachment(),
+		"is_author" => is_author(),
+		"is_category" => is_category(),
+		"is_front_page" => is_front_page(),
+		"is_home" => is_home(),
+		"is_page" => is_page(),
+		"is_search" => is_search(),
+		"is_single" => is_single(),
+		"is_tag" => is_tag(),
+		"is_tax" => is_tax()
+	);
 	$GRAFIK_OPTIONS = array(
 		'global' => array(
 			'styles' => json_decode( get_option( 'Grafik_Functions_Global_Styles' ), true ),
@@ -43,8 +56,7 @@
 			'header' => json_decode( get_option( 'Grafik_Functions_BlogCategories_Header' ), true ),
 			'content' => json_decode( get_option( 'Grafik_Functions_BlogCategories_Content' ), true ),
 			'footer' => json_decode( get_option( 'Grafik_Functions_BlogCategories_Footer' ), true ),
-			'scripts' => json_decode( get_option( 'Grafik_Functions_BlogCategories_Scripts' ), true ),
-			'filters' => json_decode( get_option( 'Grafik_Functions_BlogCategories_Filters' ), true )
+			'scripts' => json_decode( get_option( 'Grafik_Functions_BlogCategories_Scripts' ), true )
 		),
 		'posts' => array(
 			'styles' => json_decode( get_option( 'Grafik_Functions_BlogPosts_Styles' ), true ),
@@ -68,20 +80,34 @@
 			'scripts' => json_decode( get_option( 'Grafik_Functions_404Errors_Scripts' ), true )
 		)
 	);
-	$GRAFIK_MODE = array(
-		"is_404" => is_404(),
-		"is_archive" => is_archive(),
-		"is_attachment" => is_attachment(),
-		"is_author" => is_author(),
-		"is_category" => is_category(),
-		"is_front_page" => is_front_page(),
-		"is_home" => is_home(),
-		"is_page" => is_page(),
-		"is_search" => is_search(),
-		"is_single" => is_single(),
-		"is_tag" => is_tag(),
-		"is_tax" => is_tax()
+	$GRAFIK_TYPES = array(
+		'styles' => json_decode( get_option( 'Grafik_PostType_Styles' ), true ),
+		'header' => json_decode( get_option( 'Grafik_PostType_Header' ), true ),
+		'content' => json_decode( get_option( 'Grafik_PostType_Content' ), true ),
+		'footer' => json_decode( get_option( 'Grafik_PostType_Footer' ), true ),
+		'scripts' => json_decode( get_option( 'Grafik_PostType_Scripts' ), true ),
+		'structures' => json_decode( get_option( 'Grafik_PostType_Structure' ), true )
 	);
+	if( $GRAFIK_MODE[ 'is_archive' ] ) {
+		$GRAFIK_OPTIONS[ 'type' ] = array(
+			'styles' => $GRAFIK_TYPES[ 'styles' ][ $GRAFIK_OBJECT->rewrite[ 'slug' ] ],
+			'header' => $GRAFIK_TYPES[ 'header' ][ $GRAFIK_OBJECT->rewrite[ 'slug' ] ],
+			'content' => $GRAFIK_TYPES[ 'content' ][ $GRAFIK_OBJECT->rewrite[ 'slug' ] ],
+			'footer' => $GRAFIK_TYPES[ 'footer' ][ $GRAFIK_OBJECT->rewrite[ 'slug' ] ],
+			'scripts' => $GRAFIK_TYPES[ 'scripts' ][ $GRAFIK_OBJECT->rewrite[ 'slug' ] ],
+			'structures' => $GRAFIK_TYPES[ 'structures' ][ $GRAFIK_OBJECT->rewrite[ 'slug' ] ]
+		);
+	}
+	if( $GRAFIK_MODE[ 'is_single' ] ) {
+		$GRAFIK_OPTIONS[ 'type' ] = array(
+			'styles' => $GRAFIK_TYPES[ 'styles' ][ $GRAFIK_OBJECT->post_type ],
+			'header' => $GRAFIK_TYPES[ 'header' ][ $GRAFIK_OBJECT->post_type ],
+			'content' => $GRAFIK_TYPES[ 'content' ][ $GRAFIK_OBJECT->post_type ],
+			'footer' => $GRAFIK_TYPES[ 'footer' ][ $GRAFIK_OBJECT->post_type ],
+			'scripts' => $GRAFIK_TYPES[ 'scripts' ][ $GRAFIK_OBJECT->post_type ],
+			'structures' => $GRAFIK_TYPES[ 'structures' ][ $GRAFIK_OBJECT->post_type ]
+		);
+	}
 
 	#
 	# GRAFIK PRESENTATION VARS (DISPLAY)
@@ -90,7 +116,6 @@
 	$GRAFIK_LANG = Grafik_EchoString( 'language_attributes' );
 	$GRAFIK_CHAR = Grafik_EchoString( 'bloginfo', array( 'charset' ) );
 	$GRAFIK_PING = Grafik_EchoString( 'bloginfo', array( 'pingback_url' ) );
-
 	$GRAFIK_VIEW = array(
 		'document' => array(
 			'styles' => array( 'html' ),
@@ -101,32 +126,48 @@
 		),
 		'inherit' => array()
 	);
-	if( $GRAFIK_MODE['is_home'] == 1 ) {
-		$GRAFIK_VIEW[ 'inherit' ] = array( 'global', 'blog' );
-	} else if( $GRAFIK_MODE['is_archive'] == 1) {
-		$GRAFIK_VIEW[ 'inherit' ] = array( 'global', 'blog' );
-		$GRAFIK_OBJECT_ID = get_option( 'page_for_posts' );
-	} else if( $GRAFIK_MODE['is_author'] == 1 ) {
-		$GRAFIK_VIEW[ 'inherit' ] = array( 'global', 'blog', 'authors' );
-		$GRAFIK_OBJECT_ID = get_option( 'page_for_posts' );
-	} else if( $GRAFIK_MODE['is_category'] == 1 ) {
-		$GRAFIK_VIEW[ 'inherit' ] = array( 'global', 'blog', 'categories' );
-		$GRAFIK_OBJECT_ID = get_option( 'page_for_posts' );
+
+	#
+	# GRAFIK ASSET INHERITANCE
+	#
+
+	// Global
+	$GRAFIK_VIEW[ 'inherit' ] = array( 'global' );
+
+	if( $GRAFIK_MODE['is_archive'] == 1) {
+
+		// Home
+		// if( $GRAFIK_MODE['is_home'] == 1 ) $GRAFIK_VIEW[ 'inherit' ][] = 'home';
+
+		// By Author
+		// if( $GRAFIK_MODE['is_author'] == 1 ) $GRAFIK_VIEW[ 'inherit' ][] = 'authors';
+		
+		// By Category
+		// if( $GRAFIK_MODE['is_category'] == 1 ) $GRAFIK_VIEW[ 'inherit' ][] = 'categories';
+
+		// Archives
+		$GRAFIK_VIEW[ 'inherit' ][] = 'type';
+
 	} else if( $GRAFIK_MODE['is_single'] == 1 ) {
-		$GRAFIK_VIEW[ 'inherit' ] = array( 'global', 'blog', 'posts' );
+
+		// Posts
+		$GRAFIK_VIEW[ 'inherit' ][] = 'type';
+
 	} else if( $GRAFIK_MODE['is_page'] == 1 ) {
-		$GRAFIK_VIEW[ 'inherit' ] = array( 'global', 'pages' );
+
+		// Pages
+		$GRAFIK_VIEW[ 'inherit' ][] = 'pages';
+
 	} else if( $GRAFIK_MODE['is_404'] == 1 ) {
-		$GRAFIK_VIEW[ 'inherit' ] = array( 'global', 'pages', '404errors' );
-	} else {
-		$GRAFIK_VIEW[ 'inherit' ] = array( 'global' );
+
+		// 404 Error Page
+		$GRAFIK_VIEW[ 'inherit' ][] = '404errors';
+
 	}
-	// echo '<!-- '.print_r( $GRAFIK_VIEW, true ).' -->'."\n";
 
 	$GRAFIK_TITLE = get_the_title( $GRAFIK_OBJECT_ID );
 	$GRAFIK_META = get_post_meta( $GRAFIK_OBJECT_ID );
 	$GRAFIK_FUNCTIONS = json_decode( $GRAFIK_META[ 'Grafik_Functions' ][ 0 ], true );
-	// echo '<!-- '.print_r( $GRAFIK_FUNCTIONS, true ).' -->'."\n";
 
 	#
 	# MENU LOCATIONS
@@ -184,15 +225,6 @@
 
 	global $wp_query;
 	echo
-	/*
-	"\n<!-- GRAFIK_OBJECT_ID: ".$GRAFIK_OBJECT_ID." -->".
-	"\n<!-- wp_query: ".print_r( $wp_query, true )." -->".
-	"\n<!-- GRAFIK_MODE: ".print_r( $GRAFIK_MODE, true )." -->".
-	"\n<!-- GRAFIK_OPTIONS: ".print_r( $GRAFIK_OPTIONS, true )." -->".
-	"\n<!-- GRAFIK_META: ".print_r( $GRAFIK_META, true )." -->".
-	"\n<!-- GRAFIK_HTML: ".print_r( $GRAFIK_HTML, true )." -->".
-	"\n<!-- GRAFIK_MENUS: ".print_r( $GRAFIK_MENUS, true )." -->".
-	*/
 	'<!DOCTYPE html>'.
 	'<html '.$GRAFIK_LANG.' class="no-js">'.
 		'<head>'.
@@ -249,6 +281,15 @@
 			'</div>'.
 			str_replace( "\n", '', Grafik_EchoString( 'wp_footer' ) ).
 			Grafik_ShortcodeLoop( $GRAFIK_HTML[ 'scripts' ][ 'html' ] ).
+			// "\n<!-- wp_query: ".print_r( $wp_query, true )." -->".
+			// "\n<!-- GRAFIK_OBJECT_ID: ".$GRAFIK_OBJECT_ID." -->".
+			// "\n<!-- GRAFIK_MODE: ".print_r( $GRAFIK_MODE, true )." -->".
+			// "\n<!-- GRAFIK_OPTIONS: ".print_r( $GRAFIK_OPTIONS, true )." -->".
+			// "\n<!-- GRAFIK_OBJECT: ".print_r( $GRAFIK_OBJECT, true )." -->".
+			// "\n<!-- GRAFIK_TYPES: ".print_r( $GRAFIK_TYPES, true )." -->".
+			// "\n<!-- GRAFIK_META: ".print_r( $GRAFIK_META, true )." -->".
+			// "\n<!-- GRAFIK_HTML: ".htmlspecialchars( print_r( $GRAFIK_HTML, true ) )." -->".
+			// "\n<!-- GRAFIK_MENUS: ".print_r( $GRAFIK_MENUS, true )." -->".
 		'</body>'.
 	'</html>';
 

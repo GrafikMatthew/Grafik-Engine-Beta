@@ -9,7 +9,7 @@
 	# ADD SHORTCODE
 	#
 	add_shortcode( 'TypePosts', 'Grafik_Functions_Shortcode_TypePosts' );
-	function Grafik_Functions_Shortcode_TypePosts( $atts ) {
+	function Grafik_Functions_Shortcode_TypePosts( $atts, $content = '' ) {
 
 		global $wp_query;
 		global $GRAFIK_MODE;
@@ -41,7 +41,8 @@
 		if( $GRAFIK_MODE[ 'is_single' ] == 1 ) {
 
 			// Determine which template to use...
-			$post_structure = Grafik_ReadDecode( $callback_structures[ 'post' ][ 'html' ] );
+			// $post_structure = Grafik_ReadDecode( $callback_structures[ 'post' ][ 'html' ] );
+			$post_structure = $content;
 
 			// Get the post...
 			$callback_output .= Grafik_CurlyCodes( get_the_ID(), $post_structure );

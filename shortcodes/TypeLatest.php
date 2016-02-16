@@ -21,6 +21,7 @@
 			'force_context' => false,
 			'author' => '',
 			'category' => '',
+			'not_category' => '',
 			'content' => '',
 			'class' => '',
 			'id' => ''
@@ -73,7 +74,11 @@
 		}
 
 		// Construct the query...
-		$callback_query_array = array( 'post_type' => $a[ 'type' ], 'posts_per_page' => $a[ 'limit' ] );
+		$callback_query_array = array(
+			'post_type' => explode( ',', $a[ 'type' ] ),
+			'posts_per_page' => $a[ 'limit' ],
+			'category__not_in' => explode( ',', $a[ 'not_category' ] )
+		);
 		if( !empty( $callback_category ) ) $callback_query_array[ 'cat' ] = $callback_category->cat_ID;
 		$callback_query = new WP_Query( $callback_query_array );
 

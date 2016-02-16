@@ -89,30 +89,30 @@
 		) );
 
 		// Custom Types...
-		$Grafik_CustomTypes = json_decode( get_option('Grafik_PostTypes_Info', '[]'), true );
+		$Grafik_CustomTypes = json_decode( get_option('Grafik_PostType_Info', '[]'), true );
 		foreach( $Grafik_CustomTypes as $key => $val ) {
 			if( $key == 'save-time' || $key == 'save-user' ) continue;
 			register_post_type( $key, array(
 				'labels' => array(
 					'name' => Grafik_ReadDecode( $val[ 'plural' ] ),
-					'singular_name' => Grafik_ReadDecode( $val[ 'singular' ] ),
+					'singular_name' => Grafik_ReadDecode( $val[ 'single' ] ),
 					'add_new' => 'Add New',
-					'add_new_item' => 'Add New '.Grafik_ReadDecode( $val[ 'singular' ] ),
+					'add_new_item' => 'Add New '.Grafik_ReadDecode( $val[ 'single' ] ),
 					'edit' => 'Edit',
-					'edit_item' => 'Edit '.Grafik_ReadDecode( $val[ 'singular' ] ),
-					'new_item' => 'New '.Grafik_ReadDecode( $val[ 'singular' ] ),
+					'edit_item' => 'Edit '.Grafik_ReadDecode( $val[ 'single' ] ),
+					'new_item' => 'New '.Grafik_ReadDecode( $val[ 'single' ] ),
 					'view' => 'View',
-					'view_item' => 'View '.Grafik_ReadDecode( $val[ 'singular' ] ),
+					'view_item' => 'View '.Grafik_ReadDecode( $val[ 'single' ] ),
 					'search_items' => 'Search '.Grafik_ReadDecode( $val[ 'plural' ] ),
 					'not_found' => 'No '.Grafik_ReadDecode( $val[ 'plural' ] ).' Found',
 					'not_found_in_trash' => 'No '.Grafik_ReadDecode( $val[ 'plural' ] ).' Found In Trash',
-					'parent' => 'Parent '.Grafik_ReadDecode( $val[ 'singular' ] )
+					'parent' => 'Parent '.Grafik_ReadDecode( $val[ 'single' ] )
 				),
-				'public' => ( $val[ 'public' ] == 1 ? true : false ),
+				'public' => true,
+				'has_archive' => true,
 				'menu_position' => 6,
-				'supports' => array( 'author', 'custom-fields', 'editor', 'thumbnail', 'title' ),
-				'taxonomies' => array( 'category' ),
-				'has_archive' => ( $val[ 'archive' ] == 1 ? true : false )
+				'supports' => array( 'author', 'custom-fields', 'editor', 'thumbnail', 'title', 'excerpt' ),
+				'taxonomies' => array( 'category' )
 			) );
 		}
 
