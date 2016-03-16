@@ -383,62 +383,7 @@
 						'<p><textarea name="Grafik_Functions_BlogAuthors_Structure_HTML">'.Grafik_PrefillTextarea( $option_modified[ 'html' ] ).'</textarea></p>'.
 					'</td>'.
 				'</tr>'.
-				'<tr>'.
-					'<td>'.
-						'<div class="cheat-sheet">'.
-							'<p><strong>Cheat Sheet</strong></p>'.
-							'<table class="showable">'.
-								'<tr><td colspan="3"><hr/></td></tr>'.
-								'<tr>'.
-									'<td style="width:33.33333%">'.
-										'<table>'.
-											'<tr><th style="width:33.33333%">Post ID:</th><td>{{ ID }}</td></tr>'.
-											'<tr><th style="width:33.33333%">Parent ID:</th><td>{{ PARENT_ID }}</td></tr>'.
-											'<tr><th style="width:33.33333%">Author ID:</th><td>{{ AUTHOR_ID }}</td></tr>'.
-											'<tr><th style="width:33.33333%">Author Slug:</th><td>{{ AUTHOR_SLUG }}</td></tr>'.
-											'<tr><th style="width:33.33333%">Author Name:</th><td>{{ AUTHOR_NAME }}</td></tr>'.
-											'<tr><th style="width:33.33333%">Content:</th><td>{{ CONTENT }}</td></tr>'.
-											'<tr><th style="width:33.33333%">Title:</th><td>{{ TITLE }}</td></tr>'.
-											'<tr><th style="width:33.33333%">Title Slug:</th><td>{{ TITLE_SLUG }}</td></tr>'.
-											'<tr><th style="width:33.33333%">Excerpt:</th><td>{{ EXCERPT }}</td></tr>'.
-											'<tr><th style="width:33.33333%">GUID:</th><td>{{ GUID }}</td></tr>'.
-											'<tr><th style="width:33.33333%">Permalink:</th><td>{{ PERMALINK }}</td></tr>'.
-										'</table>'.
-									'</td>'.
-									'<td style="width:33.33333%">'.
-										'<table>'.
-											'<tr><th style="width:33.33333%">Day:</th><td>{{ DATE_DAY }}</td></tr>'.
-											'<tr><th style="width:33.33333%">Day (Padded):</th><td>{{ DATE_DAY_PADDED }}</td></tr>'.
-											'<tr><th style="width:33.33333%">Day Suffix:</th><td>{{ DATE_DAY_SUFFIX }}</td></tr>'.
-											'<tr><th style="width:33.33333%">Weekday:</th><td>{{ DATE_WEEKDAY }}</td></tr>'.
-											'<tr><th style="width:33.33333%">Weekday (Abbr.):</th><td>{{ DATE_WEEKDAY_ABBR }}</td></tr>'.
-											'<tr><th style="width:33.33333%">Month:</th><td>{{ DATE_MONTH }}</td></tr>'.
-											'<tr><th style="width:33.33333%">Month (Padded):</th><td>{{ DATE_MONTH_PADDED }}</td></tr>'.
-											'<tr><th style="width:33.33333%">Month (Full):</th><td>{{ DATE_MONTH_FULL }}</td></tr>'.
-											'<tr><th style="width:33.33333%">Month (Abbr):</th><td>{{ DATE_MONTH_ABBR }}</td></tr>'.
-											'<tr><th style="width:33.33333%">Year:</th><td>{{ DATE_YEAR }}</td></tr>'.
-											'<tr><th style="width:33.33333%">Year (Abbr):</th><td>{{ DATE_YEAR_ABBR }}</td></tr>'.
-										'</table>'.
-									'</td>'.
-									'<td style="width:33.33333%">'.
-										'<table>'.
-											'<tr><th style="width:33.33333%">24H Hour:</th><td>{{ TIME_24H }}</td></tr>'.
-											'<tr><th style="width:33.33333%">24H Hour (Padded):</th><td>{{ TIME_24H_PADDED }}</td></tr>'.
-											'<tr><th style="width:33.33333%">12H Hour:</th><td>{{ TIME_12H }}</td></tr>'.
-											'<tr><th style="width:33.33333%">12H Hour (Padded):</th><td>{{ TIME_12H_PADDED }}</td></tr>'.
-											'<tr><th style="width:33.33333%">12H Suffix:</th><td>{{ TIME_12H_SUFFIX }}</td></tr>'.
-											'<tr><th style="width:33.33333%">Minutes:</th><td>{{ TIME_MINUTES }}</td></tr>'.
-											'<tr><th style="width:33.33333%">Seconds:</th><td>{{ TIME_SECONDS }}</td></tr>'.
-											'<tr><th style="width:33.33333%">Timezone:</th><td>{{ TIME_ZONE }}</td></tr>'.
-											'<tr><th style="width:33.33333%">ISO8601:</th><td>{{ TIME_ISO8601 }}</td></tr>'.
-											'<tr><th style="width:33.33333%">RFC2822:</th><td>{{ TIME_RFC2822 }}</td></tr>'.
-										'</table>'.
-									'</td>'.
-								'</tr>'.
-							'</table>'.
-						'</div>'.
-					'</td>'.
-				'</tr>'.
+				'<tr><td>'.Grafik_CurlyHints().'</td></tr>'.
 				'<tr>'.
 					'<td>'.
 						'<p><strong>Behavior:</strong></p>'.

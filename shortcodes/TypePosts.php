@@ -35,7 +35,8 @@
 			'home' => json_decode( get_option( 'Grafik_Functions_Blog_Structure', true ), true),
 			'author' => json_decode( get_option( 'Grafik_Functions_BlogAuthors_Structure', true ), true),
 			'category' => json_decode( get_option( 'Grafik_Functions_BlogCategories_Structure', true ), true),
-			'post' => json_decode( get_option( 'Grafik_Functions_BlogPosts_Structure', true ), true)
+			'post' => json_decode( get_option( 'Grafik_Functions_BlogPosts_Structure', true ), true),
+			'search' => json_decode( get_option( 'Grafik_Functions_Search_Structure', true ), true )
 		);
 
 		if( $GRAFIK_MODE[ 'is_single' ] == 1 ) {
@@ -54,16 +55,19 @@
 				$post_structure = Grafik_ReadDecode( $callback_structures[ ( $callback_structures[ 'author' ][ 'behavior-html' ] == 1 ? 'home' : 'author' ) ][ 'html' ] );
 			} else if( $GRAFIK_MODE[ 'is_category' ] == 1 ) {
 				$post_structure = Grafik_ReadDecode( $callback_structures[ ( $callback_structures[ 'category' ][ 'behavior-html' ] == 1 ? 'home' : 'category' ) ][ 'html' ] );
+			} else if( $GRAFIK_MODE[ 'is_search' ] == 1)  {
+				$post_structure = Grafik_ReadDecode( $callback_structures[ ( $callback_structures[ 'search' ][ 'behavior-html '] == 1 ? 'home' : 'search' ) ][ 'html' ] );
 			} else {
 				$post_structure = Grafik_ReadDecode( $callback_structures[ 'home' ][ 'html' ] );
 			}
 
 			// Construct the query...
 			$callback_query = new WP_Query( array(
-				'post_type' => $a[ 'type' ]
+				'post_type' => explode( ',', $a[ 'type' ] )
 				, 'author' => $wp_query->query_vars[ 'author' ]
 				, 'cat' => $wp_query->query_vars[ 'cat' ]
 				, 'paged' => $wp_query->query_vars[ 'paged' ]
+				, 's' => get_search_query()
 			) );
 
 			// Loop the query...
@@ -96,6 +100,7 @@
 		}
 
 		return
+		'<!-- '.print_r( $callback_query, true ).' -->'.
 		'<div class="theme-typeposts'.(empty($a['class']) ? null : ' '.$a['class']).'"'.(empty($a['id']) ? null : ' id="'.$a['id'].'"').'>'.
 			$callback_output.
 		'</div>';

@@ -6,14 +6,22 @@
 	if( !defined('ABSPATH') ) exit;
 
 	#
+	# INI
+	#
+
+	@ini_set( 'upload_max_size' , '64M' );
+	@ini_set( 'post_max_size', '64M');
+	@ini_set( 'max_execution_time', '300' );
+
+	#
 	# DEPENDENCIES
 	#
 
 	include 'functions/utilities.php';
 
+	include 'admin/metabox.php';
 	include 'admin/categoryfilters.php';
 	include 'admin/posttypes.php';
-	include 'admin/metabox.php';
 	include 'admin/templates.php';
 
 	// include 'integrations/yoast.php';

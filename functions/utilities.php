@@ -97,8 +97,13 @@
 	}
 
 	function Grafik_CurlyCodes( $post_id, $structure = '') {
+
 		if( empty( $structure ) ) return '';
+
 		$post = get_post( $post_id );
+
+		$assets_author = get_userdata( $post->post_author );
+
 		$options = json_decode( get_option('Grafik_CategoryFilters', '[]'), true );
 		$exclusions = array();
 		foreach( $options as $key => $val ) {
@@ -120,17 +125,26 @@
 			$category_names[] = '<li class="cat-item cat-item-'.$category_id.'">'.$category->name.'</li>';
 			$category_links[] = '<li class="cat-item cat-item-'.$category_id.'"><a href="'.$category->URL.'">'.$category->name.'</a></li>';
 		}
-		$assets_date = explode( '|', date( "d|j|S|l|D|m|n|F|M|Y|y|a|A|g|h|G|H|i|s|T|c|r", strtotime( $post->post_date_gmt ) ) );
+		$post_type = $post->post_type;
+		$post_types = json_decode( get_option('Grafik_PostType_Info', '[]'), true );
+
+		preg_match_all("/ src=\"([^\"]*)\"/", get_the_post_thumbnail(), $assets_image);
+
+		$assets_date = explode( '|', date( "d|j|S|l|D|m|n|F|M|Y|y|a|A|g|h|G|H|i|s|T|c|r", strtotime( $post->post_date ) ) );
 		$assets = array(
-			'raw' => print_r( $post, true )
+			array( '{{ RAW }}', print_r( $post, true ) )
 			, array( '{{ ID }}', $post->ID )
 			, array( '{{ PARENT_ID }}', $post->post_parent )
 			, array( '{{ AUTHOR_ID }}', $post->post_author )
-			, array( '{{ AUTHOR_SLUG }}', get_the_author_meta( 'user_nicename' ) )
-			, array( '{{ AUTHOR_NAME }}', get_the_author() )
+			, array( '{{ AUTHOR_SLUG }}', get_the_author_meta( 'user_nicename', $post->post_author ) )
+			, array( '{{ AUTHOR_NAME }}', $assets_author->first_name.' '.$assets_author->last_name )
+			, array( '{{ AUTHOR_FIRST }}', $assets_author->first_name )
+			, array( '{{ AUTHOR_LAST }}', $assets_author->last_name )
+			, array( '{{ AUTHOR_USERNAME }}', $assets_author->user_login )
 			, array( '{{ CATEGORY_NAMES }}', '<ul>'.implode( '', $category_names ).'</ul>' )
 			, array( '{{ CATEGORY_LINKS }}', '<ul>'.implode( '', $category_links ).'</ul>' )
 			, array( '{{ FEATURED_IMAGE }}', get_the_post_thumbnail() )
+			, array( '{{ FEATURED_IMAGE_URL }}', empty( $assets_image ) ? '' : $assets_image[ 1 ][ 0 ] )
 			, array( '{{ CONTENT }}', $post->post_content )
 			, array( '{{ TITLE }}', $post->post_title )
 			, array( '{{ TITLE_SLUG }}', $post->post_name )
@@ -158,6 +172,9 @@
 			, array( '{{ TIME_ZONE }}', $assets_date[19] )
 			, array( '{{ TIME_ISO8601 }}', $assets_date[20] )
 			, array( '{{ TIME_RFC2822 }}', $assets_date[21] )
+			, array( '{{ TYPE_SLUG }}', $post_type )
+			, array( '{{ TYPE_SINGLE }}', Grafik_ReadDecode( $post_types[ $post_type ][ 'single' ] ) )
+			, array( '{{ TYPE_PLURAL }}', Grafik_ReadDecode( $post_types[ $post_type ][ 'plural' ] ) )
 		);
 		foreach( $assets as $asset ) {
 			$structure = str_replace( $asset[ 0 ], $asset[ 1 ], $structure );
@@ -176,6 +193,9 @@
 						'<td style="width:33.33333%">'.
 							'<table>'.
 								'<tbody>'.
+									'<tr><th style="width:33.33333%">GUID:</th><td>{{ GUID }}</td></tr>'.
+									'<tr><th style="width:33.33333%">Permalink:</th><td>{{ PERMALINK }}</td></tr>'.
+									'<tr><th style="width:33.33333%">&nbsp;</th><td>&nbsp;</td></tr>'.
 									'<tr><th style="width:33.33333%">Post ID:</th><td>{{ ID }}</td></tr>'.
 									'<tr><th style="width:33.33333%">Parent ID:</th><td>{{ PARENT_ID }}</td></tr>'.
 									'<tr><th style="width:33.33333%">Author ID:</th><td>{{ AUTHOR_ID }}</td></tr>'.
@@ -194,6 +214,10 @@
 						'<td style="width:33.33333%">'.
 							'<table>'.
 								'<tbody>'.
+									'<tr><th style="width:33.33333%">Type Slug:</th><td>{{ TYPE_SLUG }}</td></tr>'.
+									'<tr><th style="width:33.33333%">Type Name (Single):</th><td>{{ TYPE_SINGLE }}</td></tr>'.
+									'<tr><th style="width:33.33333%">Type Name (Plural):</th><td>{{ TYPE_PLURAL }}</td></tr>'.
+									'<tr><th style="width:33.33333%">&nbsp;</th><td>&nbsp;</td></tr>'.
 									'<tr><th style="width:33.33333%">Day:</th><td>{{ DATE_DAY }}</td></tr>'.
 									'<tr><th style="width:33.33333%">Day (Padded):</th><td>{{ DATE_DAY_PADDED }}</td></tr>'.
 									'<tr><th style="width:33.33333%">Day Suffix:</th><td>{{ DATE_DAY_SUFFIX }}</td></tr>'.
@@ -221,9 +245,6 @@
 									'<tr><th style="width:33.33333%">Timezone:</th><td>{{ TIME_ZONE }}</td></tr>'.
 									'<tr><th style="width:33.33333%">ISO8601:</th><td>{{ TIME_ISO8601 }}</td></tr>'.
 									'<tr><th style="width:33.33333%">RFC2822:</th><td>{{ TIME_RFC2822 }}</td></tr>'.
-									'<tr><th style="width:33.33333%">&nbsp;</th><td>&nbsp;</td></tr>'.
-									'<tr><th style="width:33.33333%">GUID:</th><td>{{ GUID }}</td></tr>'.
-									'<tr><th style="width:33.33333%">Permalink:</th><td>{{ PERMALINK }}</td></tr>'.
 								'</tbody>'.
 							'</table>'.
 						'</td>'.

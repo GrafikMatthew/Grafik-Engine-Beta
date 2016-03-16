@@ -24,6 +24,7 @@
 			"global" : {
 				"label" : "GLOBAL",
 				"map" : {
+					"tags" : { "label" : "Tags", "function" : "Grafik_Functions_Global_Tags" },
 					"styles" : { "label" : "Styles", "function" : "Grafik_Functions_Global_Styles" },
 					"header" : { "label" : "Header", "function" : "Grafik_Functions_Global_Header" },
 					"content" : { "label" : "Content", "function" : "Grafik_Functions_Global_Content" },
@@ -93,6 +94,16 @@
 					"footer" : { "label" : "Footer", "function" : "Grafik_Functions_BlogPosts_Footer" },
 					"scripts" : { "label" : "Scripts", "function" : "Grafik_Functions_BlogPosts_Scripts" },
 					"structure" : { "label" : "Structure", "function" : "Grafik_Functions_BlogPosts_Structure" }
+				}
+			},
+			"search" : {
+				"label" : "Search Results",
+				"map" : {
+					"styles" : { "label" : "Styles", "function" : "Grafik_Functions_Search_Styles" },
+					"header" : { "label" : "Header", "function" : "Grafik_Functions_Search_Header" },
+					"content" : { "label" : "Content", "function" : "Grafik_Functions_Search_Content" },
+					"footer" : { "label" : "Footer", "function" : "Grafik_Functions_Search_Footer" },
+					"scripts" : { "label" : "Scripts", "function" : "Grafik_Functions_Search_Scripts" }
 				}
 			}
 		}',true);
