@@ -312,6 +312,26 @@
 		$default_val ++;
 
 		echo
+		'<script>'.
+			'(function($){'.
+				'$(document).on(\'ready\',function(){'.
+					// Detect Page Editor...
+					'var PageType=$(\'body.post-type-page\');'.
+					'if(PageType.length){'.
+						// Disable TinyMCE Tag...
+						'PageType.find(\'button#content-tmce\').off(\'click\').css({ \'pointer-events\' : \'none\' }).html(\'Visual (Disabled)\');'.
+						// Detect Active TinyMCE...
+						'var ActiveTMCE=PageType.find(\'.tmce-active\');'.
+						'if(ActiveTMCE.length){'.
+							// Toggle the TinyMCE off...
+							'ActiveTMCE.find(\'button#content-html\').trigger(\'click\');'.
+							'alert(\'The Visual Editor is disabled on Pages due to its interference with HTML and shortcode structure. The editor will now switch to TEXT mode and refresh the page to preserve your data.\');'.
+							'location.reload();'.
+						'}'.
+					'}'.
+				'});'.
+			'})(jQuery);'.
+		'</script>'.
 		'<div class="grafik-metabox">'.
 			'<h3>Styles</h3>'.
 			'<table>'.
