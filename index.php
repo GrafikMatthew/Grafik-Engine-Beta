@@ -42,99 +42,32 @@
 
 	*/
 
-	$GRAFIK_MODE = array(
-		"is_404" => is_404(),
-		"is_archive" => is_archive(),
-		"is_attachment" => is_attachment(),
-		"is_author" => is_author(),
-		"is_category" => is_category(),
-		"is_front_page" => is_front_page(),
-		"is_home" => is_home(),
-		"is_page" => is_page(),
-		"is_search" => is_search(),
-		"is_single" => is_single(),
-		"is_tag" => is_tag(),
-		"is_tax" => is_tax()
+	$GRAFIK_MODE = array( null
+		, "is_404"			=> is_404()
+		, "is_archive"		=> is_archive()
+		, "is_attachment"	=> is_attachment()
+		, "is_author"		=> is_author()
+		, "is_category"		=> is_category()
+		, "is_front_page"	=> is_front_page()
+		, "is_home"			=> is_home()
+		, "is_page"			=> is_page()
+		, "is_search"		=> is_search()
+		, "is_single"		=> is_single()
+		, "is_tag"			=> is_tag()
+		, "is_tax"			=> is_tax()
 	);
 
 	/*
 
-	888888 888888 888888o. 8888o. 88     .o88o. 888888 888888 .o8888
-	  88   88     88 88 88 88  88 88     88  88   88   88     88    
-	  88   8888   88 88 88 8888Y' 88     888888   88   8888   'Y88o.
-	  88   88     88 88 88 88     88     88  88   88   88         88
-	  88   888888 88 88 88 88     888888 88  88   88   888888 8888Y'
+	888888 888888 888888o. 8888o. 88     .o88o. 888888 888888    .o88o. .o8888 .o8888 888888 888888o. 8888o. 88     88  88
+	  88   88     88 88 88 88  88 88     88  88   88   88        88  88 88     88     88     88 88 88 88  88 88     88  88
+	  88   8888   88 88 88 8888Y' 88     888888   88   8888      888888 'Y88o. 'Y88o. 8888   88 88 88 8888Y' 88     'Y8888
+	  88   88     88 88 88 88     88     88  88   88   88        88  88     88     88 88     88 88 88 88  88 88         88
+	  88   888888 88 88 88 88     888888 88  88   88   888888    88  88 8888Y' 8888Y' 888888 88 88 88 8888Y' 888888 8888Y'
 
 	*/
 
-	$GRAFIK_OPTIONS = array(
-		'global' => array(
-			'tags' => json_decode( get_option( 'Grafik_Functions_Global_Tags' ), true ),
-			'styles' => json_decode( get_option( 'Grafik_Functions_Global_Styles' ), true ),
-			'header' => json_decode( get_option( 'Grafik_Functions_Global_Header' ), true ),
-			'content' => json_decode( get_option( 'Grafik_Functions_Global_Content' ), true ),
-			'footer' => json_decode( get_option( 'Grafik_Functions_Global_Footer' ), true ),
-			'scripts' => json_decode( get_option( 'Grafik_Functions_Global_Scripts' ), true )
-		),
-		'blog' => array(
-			'tags' => json_decode( get_option( 'Grafik_Functions_Blog_Tags' ), true ),
-			'styles' => json_decode( get_option( 'Grafik_Functions_Blog_Styles' ), true ),
-			'header' => json_decode( get_option( 'Grafik_Functions_Blog_Header' ), true ),
-			'content' => json_decode( get_option( 'Grafik_Functions_Blog_Content' ), true ),
-			'footer' => json_decode( get_option( 'Grafik_Functions_Blog_Footer' ), true ),
-			'scripts' => json_decode( get_option( 'Grafik_Functions_Blog_Scripts' ), true )
-		),
-		'search' => array(
-			'tags' => json_decode( get_option( 'Grafik_Functions_Search_Tags' ), true ),
-			'styles' => json_decode( get_option( 'Grafik_Functions_Search_Styles' ), true ),
-			'header' => json_decode( get_option( 'Grafik_Functions_Search_Header' ), true ),
-			'content' => json_decode( get_option( 'Grafik_Functions_Search_Content' ), true ),
-			'footer' => json_decode( get_option( 'Grafik_Functions_Search_Footer' ), true ),
-			'scripts' => json_decode( get_option( 'Grafik_Functions_Search_Scripts' ), true ),
-		),
-		'authors' => array(
-			'tags' => json_decode( get_option( 'Grafik_Functions_BlogAuthors_Tags' ), true ),
-			'styles' => json_decode( get_option( 'Grafik_Functions_BlogAuthors_Styles' ), true ),
-			'header' => json_decode( get_option( 'Grafik_Functions_BlogAuthors_Header' ), true ),
-			'content' => json_decode( get_option( 'Grafik_Functions_BlogAuthors_Content' ), true ),
-			'footer' => json_decode( get_option( 'Grafik_Functions_BlogAuthors_Footer' ), true ),
-			'scripts' => json_decode( get_option( 'Grafik_Functions_BlogAuthors_Scripts' ), true )
-		),
-		'categories' => array(
-			'tags' => json_decode( get_option( 'Grafik_Functions_BlogCategories_Tags' ), true ),
-			'styles' => json_decode( get_option( 'Grafik_Functions_BlogCategories_Styles' ), true ),
-			'header' => json_decode( get_option( 'Grafik_Functions_BlogCategories_Header' ), true ),
-			'content' => json_decode( get_option( 'Grafik_Functions_BlogCategories_Content' ), true ),
-			'footer' => json_decode( get_option( 'Grafik_Functions_BlogCategories_Footer' ), true ),
-			'scripts' => json_decode( get_option( 'Grafik_Functions_BlogCategories_Scripts' ), true )
-		),
-		'posts' => array(
-			'tags' => json_decode( get_option( 'Grafik_Functions_BlogPosts_Tags' ), true ),
-			'styles' => json_decode( get_option( 'Grafik_Functions_BlogPosts_Styles' ), true ),
-			'header' => json_decode( get_option( 'Grafik_Functions_BlogPosts_Header' ), true ),
-			'content' => json_decode( get_option( 'Grafik_Functions_BlogPosts_Content' ), true ),
-			'footer' => json_decode( get_option( 'Grafik_Functions_BlogPosts_Footer' ), true ),
-			'scripts' => json_decode( get_option( 'Grafik_Functions_BlogPosts_Scripts' ), true )
-		),
-		'pages' => array(
-			'tags' => json_decode( get_option( 'Grafik_Functions_Pages_Tags' ), true ),
-			'styles' => json_decode( get_option( 'Grafik_Functions_Pages_Styles' ), true ),
-			'header' => json_decode( get_option( 'Grafik_Functions_Pages_Header' ), true ),
-			'content' => json_decode( get_option( 'Grafik_Functions_Pages_Content' ), true ),
-			'footer' => json_decode( get_option( 'Grafik_Functions_Pages_Footer' ), true ),
-			'scripts' => json_decode( get_option( 'Grafik_Functions_Pages_Scripts' ), true )
-		),
-		'404errors' => array(
-			'tags' => json_decode( get_option( 'Grafik_Functions_404Errors_Tags' ), true ),
-			'styles' => json_decode( get_option( 'Grafik_Functions_404Errors_Styles' ), true ),
-			'header' => json_decode( get_option( 'Grafik_Functions_404Errors_Header' ), true ),
-			'content' => json_decode( get_option( 'Grafik_Functions_404Errors_Content' ), true ),
-			'footer' => json_decode( get_option( 'Grafik_Functions_404Errors_Footer' ), true ),
-			'scripts' => json_decode( get_option( 'Grafik_Functions_404Errors_Scripts' ), true )
-		)
-	);
-
-	
+	$GRAFIK_TEMPLATES = Grafik_GetTemplateAssembly( $GRAFIK_MODE );
 
 	/*
 
@@ -269,9 +202,48 @@
 		'scripts' => array( 'html' => '' )
 	);
 
+	// INHERITANCE TREE
+	$GRAFIK_INHERITANCE = array(
+		'global' => array( 'tags' => array( 'before' => '', 'after' => '' ) ),
+			'pages' => array( 'tags' => array( 'before' => '', 'after' => '' ) ),
+				'404errors' => array( 'tags' => array( 'before' => '', 'after' => '' ) ),
+			'archives' => array( 'tags' => array( 'before' => '', 'after' => '' ) ),
+				'archive-type' => array( 'tags' => array( 'before' => '', 'after' => '' ) ),
+			'posts' => array( 'tags' => array( 'before' => '', 'after' => '' ) ),
+				'post-type' => array( 'tags' => array( 'before' => '', 'after' => '' ) ),
+		'specific-page' => array( 'tags' => array( 'before' => '', 'after' => '' ) ),
+		'specific-post' => array( 'tags' => array( 'before' => '', 'after' => '' ) )
+	);
+	// - Global
+	if( $GRAFIK_OPTIONS[ 'global' ][ 'tags' ][ 'behavior-before' ] != 0 ) {
+		$GRAFIK_INHERITANCE[ 'global' ][ 'tags' ][ 'before' ] = Grafik_ReadDecode( $GRAFIK_OPTIONS[ 'global' ][ 'tags' ][ 'before' ] );
+	}
+	// - Pages
+	if( $GRAFIK_MODE[ 'is_page' ] == 1 ) {
+		if( $GRAFIK_OPTIONS[ 'pages' ][ 'tags' ][ 'behavior-before' ] == 1 ) {
+			$GRAFIK_INHERITANCE[ 'pages' ][ 'tags' ][ 'before' ] .= Grafik_ReadDecode( $GRAFIK_OPTIONS[ 'pages' ][ 'tags' ][ 'before' ] );
+		}
+		if( $GRAFIK_OPTIONS[ 'pages' ][ 'tags' ][ 'behavior-before' ] == 2 ) {
+			$GRAFIK_INHERITANCE[ 'pages' ][ 'tags' ][ 'before' ] = Grafik_ReadDecode( $GRAFIK_OPTIONS[ 'pages' ][ 'tags' ][ 'before' ] ).$GRAFIK_INHERITANCE[ 'pages' ][ 'tags' ][ 'before' ];
+		}
+		if( $GRAFIK_OPTIONS[ 'pages' ][ 'tags' ][ 'behavior-before-global' ] == 0 ) {
+			$GRAFIK_INHERITANCE[ 'global' ][ 'tags' ][ 'before' ] = '';
+		}
+	}
+
+
+
+
+
+
+
+	$GRAFIK_HTML[ 'tags' ][ 'after' ] .= $GRAFIK_OPTIONS[ 'global' ][ 'tags' ][ 'behavior-after' ] == 1 ? Grafik_ReadDecode( $GRAFIK_OPTIONS[ 'global' ][ 'tags' ][ 'after' ] ) : '';
+
+
+
 	# RIGHT NOW ONLY GLOBAL HAS TAGS, ALL LEVELS NEED TAGS WITH APPROPRIATE INHERITANCE CHAINING...
 	if( $GRAFIK_OPTIONS[ 'global' ][ 'tags' ][ 'mode-body-before' ] != 1 ) {
-		$GRAFIK_HTML[ 'tags' ][ 'before' ] = Grafik_ReadDecode( $GRAFIK_OPTIONS[ 'global' ][ 'tags' ][ 'html-body-before' ] );
+		$GRAFIK_HTML[ 'tags' ][ 'before' ] = Grafik_ReadDecode( $GRAFIK_OPTIONS[ 'global' ][ 'tags' ][ 'before' ] );
 	}
 	if( $GRAFIK_OPTIONS[ 'global' ][ 'tags' ][ 'mode-body-after' ] != 1 ) {
 		$GRAFIK_HTML[ 'tags' ][ 'after' ] =  Grafik_ReadDecode( $GRAFIK_OPTIONS[ 'global' ][ 'tags' ][ 'html-body-after' ] );
@@ -432,6 +404,7 @@
 	# "\n<!-- GRAFIK_META: ".print_r( $GRAFIK_META, true )." -->".
 	# "\n<!-- GRAFIK_HTML: ".htmlspecialchars( print_r( $GRAFIK_HTML, true ) )." -->".
 	# "\n<!-- GRAFIK_MENUS: ".print_r( $GRAFIK_MENUS, true )." -->".
+	"\n<!-- GRAFIK_TEMPLATES: ".print_r( $GRAFIK_TEMPLATES, true )." -->".
 	'';
 
 ?>

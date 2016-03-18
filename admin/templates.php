@@ -20,125 +20,50 @@
 
 	function Grafik_Templates_Output() {
 
-		$GRAFIK_FUNCTIONS = json_decode('{
-			"global" : {
-				"label" : "GLOBAL",
-				"map" : {
-					"tags" : { "label" : "Tags", "function" : "Grafik_Functions_Global_Tags" },
-					"styles" : { "label" : "Styles", "function" : "Grafik_Functions_Global_Styles" },
-					"header" : { "label" : "Header", "function" : "Grafik_Functions_Global_Header" },
-					"content" : { "label" : "Content", "function" : "Grafik_Functions_Global_Content" },
-					"footer" : { "label" : "Footer", "function" : "Grafik_Functions_Global_Footer" },
-					"scripts" : { "label" : "Scripts", "function" : "Grafik_Functions_Global_Scripts" }
-				}
-			},
-			"404-errors" : {
-				"label" : "404 Errors",
-				"map" : {
-					"styles" : { "label" : "Styles", "function" : "Grafik_Functions_404Errors_Styles" },
-					"header" : { "label" : "Header", "function" : "Grafik_Functions_404Errors_Header" },
-					"content" : { "label" : "Content", "function" : "Grafik_Functions_404Errors_Content" },
-					"footer" : { "label" : "Footer", "function" : "Grafik_Functions_404Errors_Footer" },
-					"scripts" : { "label" : "Scripts", "function" : "Grafik_Functions_404Errors_Scripts" }
-				}
-			},
-			"pages" : {
-				"label" : "Static Pages",
-				"map" : {
-					"styles" : { "label" : "Styles", "function" : "Grafik_Functions_Pages_Styles" },
-					"header" : { "label" : "Header", "function" : "Grafik_Functions_Pages_Header" },
-					"content" : { "label" : "Content", "function" : "Grafik_Functions_Pages_Content" },
-					"footer" : { "label" : "Footer", "function" : "Grafik_Functions_Pages_Footer" },
-					"scripts" : { "label" : "Scripts", "function" : "Grafik_Functions_Pages_Scripts" }
-				}
-			},
-			"blog" : {
-				"label" : "Blog",
-				"map" : {
-					"styles" : { "label" : "Styles", "function" : "Grafik_Functions_Blog_Styles" },
-					"header" : { "label" : "Header", "function" : "Grafik_Functions_Blog_Header" },
-					"content" : { "label" : "Content", "function" : "Grafik_Functions_Blog_Content" },
-					"footer" : { "label" : "Footer", "function" : "Grafik_Functions_Blog_Footer" },
-					"scripts" : { "label" : "Scripts", "function" : "Grafik_Functions_Blog_Scripts" },
-					"structure" : { "label" : "Structure", "function" : "Grafik_Functions_Blog_Structure" }
-				}
-			},
-			"blog-authors" : {
-				"label" : "Blog Authors",
-				"map" : {
-					"styles" : { "label" : "Styles", "function" : "Grafik_Functions_BlogAuthors_Styles" },
-					"header" : { "label" : "Header", "function" : "Grafik_Functions_BlogAuthors_Header" },
-					"content" : { "label" : "Content", "function" : "Grafik_Functions_BlogAuthors_Content" },
-					"footer" : { "label" : "Footer", "function" : "Grafik_Functions_BlogAuthors_Footer" },
-					"scripts" : { "label" : "Scripts", "function" : "Grafik_Functions_BlogAuthors_Scripts" },
-					"structure" : { "label" : "Structure", "function" : "Grafik_Functions_BlogAuthors_Structure" }
-				}
-			},
-			"blog-categories" : {
-				"label" : "Blog Categories",
-				"map" : {
-					"styles" : { "label" : "Styles", "function" : "Grafik_Functions_BlogCategories_Styles" },
-					"header" : { "label" : "Header", "function" : "Grafik_Functions_BlogCategories_Header" },
-					"content" : { "label" : "Content", "function" : "Grafik_Functions_BlogCategories_Content" },
-					"footer" : { "label" : "Footer", "function" : "Grafik_Functions_BlogCategories_Footer" },
-					"scripts" : { "label" : "Scripts", "function" : "Grafik_Functions_BlogCategories_Scripts" },
-					"structure" : { "label" : "Structure", "function" : "Grafik_Functions_BlogCategories_Structure" }
-				}
-			},
-			"blog-posts" : {
-				"label" : "Blog Posts",
-				"map" : {
-					"styles" : { "label" : "Styles", "function" : "Grafik_Functions_BlogPosts_Styles" },
-					"header" : { "label" : "Header", "function" : "Grafik_Functions_BlogPosts_Header" },
-					"content" : { "label" : "Content", "function" : "Grafik_Functions_BlogPosts_Content" },
-					"footer" : { "label" : "Footer", "function" : "Grafik_Functions_BlogPosts_Footer" },
-					"scripts" : { "label" : "Scripts", "function" : "Grafik_Functions_BlogPosts_Scripts" },
-					"structure" : { "label" : "Structure", "function" : "Grafik_Functions_BlogPosts_Structure" }
-				}
-			},
-			"search" : {
-				"label" : "Search Results",
-				"map" : {
-					"styles" : { "label" : "Styles", "function" : "Grafik_Functions_Search_Styles" },
-					"header" : { "label" : "Header", "function" : "Grafik_Functions_Search_Header" },
-					"content" : { "label" : "Content", "function" : "Grafik_Functions_Search_Content" },
-					"footer" : { "label" : "Footer", "function" : "Grafik_Functions_Search_Footer" },
-					"scripts" : { "label" : "Scripts", "function" : "Grafik_Functions_Search_Scripts" }
-				}
-			}
-		}',true);
-
-		$active_primary = isset( $_GET[ 'func' ] ) ? $_GET[ 'func' ] : '';
-		if( !array_key_exists( $active_primary, $GRAFIK_FUNCTIONS ) ) {
-			reset( $GRAFIK_FUNCTIONS );
-			$active_primary = key( $GRAFIK_FUNCTIONS );
-		}
 		$output_primary = '';
-		foreach( $GRAFIK_FUNCTIONS as $key => $val ) {
-			$output_primary .=
-			'<li'.( $active_primary == $key ? ' class="active"' : '' ).'>'.
-				'<a href="?page='.$_GET[ 'page' ].'&amp;func='.$key.'">'.
-					$val[ 'label' ].
-				'</a>'.
-			'</li>';
-		}
-
-		$active_secondary = isset( $_GET[ 'edit' ] ) ? $_GET[ 'edit' ] : '';
-		if( !array_key_exists( $active_secondary, $GRAFIK_FUNCTIONS[$active_primary]['map'] ) ) {
-			reset( $GRAFIK_FUNCTIONS[ $active_primary ][ 'map' ] );
-			$active_secondary = key( $GRAFIK_FUNCTIONS[ $active_primary ][ 'map' ] );
-		}
 		$output_secondary = '';
-		foreach( $GRAFIK_FUNCTIONS[ $active_primary ][ 'map' ] as $key => $val ) {
-			$output_secondary .=
-			'<li'.( $active_secondary == $key ? ' class="active"' : '' ).'>'.
-				'<a href="?page='.$_GET[ 'page' ].'&amp;func='.$active_primary.'&amp;edit='.$key.'">'.
-					$val[ 'label' ].
-				'</a>'.
+
+		$template_map = array(
+			'global'				=> array( 'label' => 'GLOBAL',							'prefix' => 'Grafik_Functions_Global_' ),
+			'pages'					=> array( 'label' => 'Pages',							'prefix' => 'Grafik_Functions_Pages_' ),
+			'not-found'				=> array( 'label' => 'Pages &mdash; Not Found',			'prefix' => 'Grafik_Functions_NotFound_' ),
+			'search-results'		=> array( 'label' => 'Pages &mdash; Search Results',	'prefix' => 'Grafik_Functions_SearchResults_' ),
+			'posts'					=> array( 'label' => 'Posts',							'prefix' => 'Grafik_Functions_Posts_' ),
+			'post-types'			=> array( 'label' => 'Posts &mdash; Types',				'prefix' => 'Grafik_Functions_PostTypes_' ),
+			'archives'				=> array( 'label' => 'Archives',						'prefix' => 'Grafik_Functions_Archives_' ),
+			'archive-types'			=> array( 'label' => 'Archives &mdash; Types',			'prefix' => 'Grafik_Functions_ArchiveTypes_' ),
+			'archive-authors'		=> array( 'label' => 'Archives &mdash; Authors',			'prefix' => 'Grafik_Functions_ArchiveAuthors_' ),
+			'archive-categories'	=> array( 'label' => 'Archives &mdash; Categories',		'prefix' => 'Grafik_Functions_ArchiveCategories_' )
+		);
+		$section_map = array(
+			'styles'	=> 'Styles',
+			'header'	=> 'Header',
+			'content'	=> 'Content',
+			'footer'	=> 'Footer',
+			'scripts'	=> 'Scripts'
+		);
+
+		$template = isset( $_GET[ 'template' ] ) ? $_GET[ 'template' ] : '';
+		$section = isset( $_GET[ 'section' ] ) ? $_GET[ 'section' ] : '';
+
+		if( !array_key_exists( $template, $template_map ) ) $template = key( $template_map );
+		if( !array_key_exists( $section, $section_map ) ) $section = key( $section_map );
+
+		foreach( $template_map as $key => $val ) {
+			$output_primary .=
+			'<li'.( $template == $key ? ' class="active"' : '' ).'>'.
+				'<a href="?page='.$_GET[ 'page' ].'&amp;template='.$key.'">'.$val[ 'label' ].'</a>'.
 			'</li>';
 		}
 
-		include dirname( __FILE__ ).'/../functions/'.$active_primary.'.php';
+		foreach( $section_map as $key => $val ) {
+			$output_secondary .=
+			'<li'.( $section == $key ? ' class="active"' : '' ).'>'.
+				'<a href="?page='.$_GET[ 'page' ].'&amp;template='.$template.'&amp;section='.$key.'">'.$val.'</a>'.
+			'</li>';
+		}
+
+		include dirname( __FILE__ ).'/../functions/'.$template.'.php';
 
 		echo
 		'<div class="grafik-functions">'.
@@ -148,13 +73,13 @@
 					'<ul>'.$output_primary.'</ul>'.
 				'</div>'.
 				'<div class="grafik-functions-primarydisplay">'.
-					'<h2>'.$GRAFIK_FUNCTIONS[ $active_primary ][ 'label' ].'</h2>'.
+					'<h2>'.$template_map[ $template ][ 'label' ].'</h2>'.
 					'<div class="grafik-functions-secondarynav">'.
 						'<ul>'.$output_secondary.'</ul>'.
 					'</div>'.
 					'<div class="grafik-functions-secondarydisplay">'.
-						'<h3>'.$GRAFIK_FUNCTIONS[$active_primary]['map'][$active_secondary]['label'].'</h3>'.
-						call_user_func( $GRAFIK_FUNCTIONS[$active_primary]['map'][$active_secondary]['function'] ).
+						'<h3>'.$section_map[ $section ].'</h3>'.
+						call_user_func( $template_map[ $template ][ 'prefix' ].$section_map[ $section ] ).
 					'</div>'.
 				'</div>'.
 				'<script type="text/javascript" src="'.get_template_directory_uri().'/js/functions.js"></script>'.

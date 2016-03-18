@@ -76,7 +76,7 @@ Text Domain: grafik-engine
 	.grafik-functions-display:after { content: ""; clear: both; display: block; float: none; height: 0; }
 
 	.grafik-functions-primarynav { float: left; }
-	.grafik-functions-primarynav ul { margin: 0; padding: 0; width: 150px; list-style-type: none; }
+	.grafik-functions-primarynav ul { margin: 0; padding: 0; width: 200px; list-style-type: none; }
 	.grafik-functions-primarynav li { margin: 5px 0 0 0; padding: 0 5px 0 0; }
 	.grafik-functions-primarynav li:first-child { margin: 0; }
 	.grafik-functions-primarynav a { display: block; padding: 10px; line-height: 20px; text-decoration: none; background: #ccc; color: #000; }
@@ -85,7 +85,7 @@ Text Domain: grafik-engine
 	.grafik-functions-primarynav a:active,
 	.grafik-functions-primarynav li.active a { background: #999; color: #fff; }
 
-	.grafik-functions-primarydisplay { margin: 0 0 0 145px; border: 5px solid #999; padding: 5px; }
+	.grafik-functions-primarydisplay { margin: 0 0 0 195px; border: 5px solid #999; padding: 5px; }
 	.grafik-functions-primarydisplay > h2 { margin: 0; padding: 0 5px; line-height: 30px; font-size: 1.25rem; font-weight: 300; text-transform: uppercase; }
 
 	.grafik-functions-secondarynav { padding: 5px 0 0 0; }

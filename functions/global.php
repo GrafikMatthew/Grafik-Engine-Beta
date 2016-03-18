@@ -5,339 +5,254 @@
 	#
 	if( !defined('ABSPATH') ) exit;
 
-	function Grafik_Functions_Global_SelectBehavior($name, $selected) {
-
+	function Grafik_Functions_Global_SelectBehavior( $name, $selected ) {
 		return
 		'<select name="'.$name.'">'.
-			'<option value="0"'.( $selected == 0 ? ' selected="selected"' : '').'>Enabled</option>'.
-			'<option value="1"'.( $selected == 1 ? ' selected="selected"' : '').'>Disabled</option>'.
+			'<option value="0"'.( $selected == 0 ? ' selected="selected"' : '').'>Disabled</option>'.
+			'<option value="1"'.( $selected == 1 ? ' selected="selected"' : '').'>Enabled</option>'.
 		'</select>';
+	}
+
+	function Grafik_Functions_Global_InputGroup( $key, $options, $label, $prefix ) {
+		return
+		'<p><br/><strong>'.$label.':</strong></p>'.
+		'<p><textarea name="'.$prefix.'HTML">'.Grafik_PrefillTextarea( $options[ $key.'-html' ] ).'</textarea></p>'.
+		'<p>'.Grafik_Functions_Global_SelectBehavior( $prefix.'Mode', $options[ $key.'-mode' ] ).'</p>';
+	}
+
+	function Grafik_Functions_Global_GetSave( $key, $options ) {
+		if( empty( $options[ $key.'-save' ] ) ) return 'Never...';
+		$save = explode( ':', $options[ $key.'-save' ] );
+		return date( "l, F jS, Y @ g:i A", $save[ 0 ] ).' by '.$save[ 1 ]->display_name;
+	}
+
+	function Grafik_Functions_Global_GetOptions() {
+		return json_decode( get_option( 'Grafik_Templates_Global', '[]' ), true );
+	}
+
+	function Grafik_Functions_Global_PutOptions( $options ) {
+		update_option( 'Grafik_Templates_Global', json_encode( $options ) );
+	}
+
+	function Grafik_Functions_Global_Nonce() {
+		$key = 'Grafik_Templates_Global_Nonce';
+		return ( isset( $_POST[ $key ] ) && wp_verify_nonce( $_POST[ $key ], $key ) );
+	}
+
+	function Grafik_Functions_Global_InputFields( $key, $options ) {
+
+		$form = '';
+		switch( $key ) {
+
+			case 'styles':
+				$form =
+				'<div style="overflow:auto;">'.
+					'<div style="float:left;width:100%;">'.Grafik_Functions_Global_InputGroup( $key, $options, 'Rules', 'Grafik_Functions_Global_Styles_' ).'</div>'.
+				'</div>';
+				break;
+
+			case 'header':
+				$form =
+				'<div style="overflow:auto;">'.
+					'<div style="float:left;width:50%;">'.Grafik_Functions_Global_InputGroup( $key.'-tl', $options, 'Top Left', 'Grafik_Functions_Global_Header_TopLeft' ).'</div>'.
+					'<div style="float:left;width:50%;">'.Grafik_Functions_Global_InputGroup( $key.'-tr', $options, 'Top Right', 'Grafik_Functions_Global_Header_TopRight' ).'</div>'.
+				'</div>'.
+				'<div style="overflow:auto;">'.
+					'<div style="float:left;width:50%;">'.Grafik_Functions_Global_InputGroup( $key.'-ml', $options, 'Middle Left', 'Grafik_Functions_Global_Header_MiddleLeft' ).'</div>'.
+					'<div style="float:left;width:50%;">'.Grafik_Functions_Global_InputGroup( $key.'-mr', $options, 'Middle Right', 'Grafik_Functions_Global_Header_MiddleRight' ).'</div>'.
+				'</div>'.
+				'<div style="overflow:auto;">'.
+					'<div style="float:left;width:50%;">'.Grafik_Functions_Global_InputGroup( $key.'-bl', $options, 'Bottom Left', 'Grafik_Functions_Global_Header_BottomLeft' ).'</div>'.
+					'<div style="float:left;width:50%;">'.Grafik_Functions_Global_InputGroup( $key.'-br', $options, 'Bottom Right', 'Grafik_Functions_Global_Header_BottomRight' ).'</div>'.
+				'</div>';
+				break;
+
+			case 'content':
+				$form =
+				'<div style="overflow:auto;">'.
+					'<div style="float:left;width:100%;">'.Grafik_Functions_Global_InputGroup( $key.'-t', $options, 'Top', 'Grafik_Functions_Global_Content_Top' ).'</div>'.
+				'</div>'.
+				'<div style="overflow:auto;">'.
+					'<div style="float:left;width:33.33333%">'.Grafik_Functions_Global_InputGroup( $key.'-l', $options, 'Left Rail', 'Grafik_Functions_Global_Content_Left' ).'</div>'.
+					'<div style="float:left;width:33.33333%">'.Grafik_Functions_Global_InputGroup( $key.'-c', $options, 'Center Rail', 'Grafik_Functions_Global_Content_Center' ).'</div>'.
+					'<div style="float:left;width:33.33333%">'.Grafik_Functions_Global_InputGroup( $key.'-r', $options, 'Right Rail', 'Grafik_Functions_Global_Content_Right' ).'</div>'.
+				'</div>'.
+				'<div style="overflow:auto;">'.
+					'<div style="float:left;width:100%;">'.Grafik_Functions_Global_InputGroup( $key.'-b', $options, 'Bottom', 'Grafik_Functions_Global_Content_Bottom' ).'</div>'.
+				'</div>';
+				break;
+
+			case 'footer':
+				$form =
+				'<div style="overflow:auto;">'.
+					'<div style="float:left;width:50%;">'.Grafik_Functions_Global_InputGroup( $key.'-tl', $options, 'Top Left', 'Grafik_Functions_Global_Footer_TopLeft' ).'</div>'.
+					'<div style="float:left;width:50%;">'.Grafik_Functions_Global_InputGroup( $key.'-tr', $options, 'Top Right', 'Grafik_Functions_Global_Footer_TopRight' ).'</div>'.
+				'</div>'.
+				'<div style="overflow:auto;">'.
+					'<div style="float:left;width:50%;">'.Grafik_Functions_Global_InputGroup( $key.'-ml', $options, 'Middle Left', 'Grafik_Functions_Global_Footer_MiddleLeft' ).'</div>'.
+					'<div style="float:left;width:50%;">'.Grafik_Functions_Global_InputGroup( $key.'-mr', $options, 'Middle Right', 'Grafik_Functions_Global_Footer_MiddleRight' ).'</div>'.
+				'</div>'.
+				'<div style="overflow:auto;">'.
+					'<div style="float:left;width:50%;">'.Grafik_Functions_Global_InputGroup( $key.'-bl', $options, 'Bottom Left', 'Grafik_Functions_Global_Footer_BottomLeft' ).'</div>'.
+					'<div style="float:left;width:50%;">'.Grafik_Functions_Global_InputGroup( $key.'-br', $options, 'Bottom Right', 'Grafik_Functions_Global_Footer_BottomRight' ).'</div>'.
+				'</div>';
+				break;
+
+			case 'scripts':
+				$form =
+				'<div style="overflow:auto;">'.
+					'<div style="float:left;width:100%;">'.Grafik_Functions_Global_InputGroup( $key.'-head', $options, 'Head Tag', 'Grafik_Functions_Global_Scripts_Head' ).'</div>'.
+				'</div>'.
+				'<div style="overflow:auto;">'.
+					'<div style="float:left;width:100%;">'.Grafik_Functions_Global_InputGroup( $key.'-intro', $options, 'Body Tag (Intro)', 'Grafik_Functions_Global_Scripts_Intro' ).'</div>'.
+				'</div>'.
+				'<div style="overflow:auto;">'.
+					'<div style="float:left;width:100%;">'.Grafik_Functions_Global_InputGroup( $key.'-outro', $options, 'Body Tag (Outro)', 'Grafik_Functions_Global_Scripts_Outro' ).'</div>'.
+				'</div>';
+				break;
+
+		}
+
+		return
+		'<form method="POST">'.
+			$form.
+			'<hr/>'.
+			'<button type="submit" class="button button-primary button-large">Save Changes</button>'.
+			'<span class="last-update">Last Updated: '.Grafik_Functions_Global_GetSave( $key, $options ).'</span>'.
+			wp_nonce_field( 'Grafik_Templates_Global_Nonce', 'Grafik_Templates_Global_Nonce', true, false ).
+		'</form>';
 
 	}
 
 	function Grafik_Functions_Global_Styles() {
 
-		#
-		# STORED OPTION
-		#
-		$option_stored = json_decode( get_option( 'Grafik_Functions_Global_Styles', '[]' ), true );
+		$key = 'styles';
+		$prefix = 'Grafik_Functions_Global_Styles_';
+		$options = array_replace(
+			Grafik_GetTemplateStructure( array() ),
+			Grafik_Functions_Global_GetOptions()
+		);
 
-		#
-		# UPDATE OPTION
-		#
-		$option_modified = $option_stored;
-		if( isset( $_POST[ 'Grafik_Functions_Global_Styles_Nonce' ] ) && wp_verify_nonce( $_POST[ 'Grafik_Functions_Global_Styles_Nonce' ], 'Grafik_Functions_Global_Styles_Nonce' ) ) {
-			$option_modified['html'] = Grafik_WriteEncode( $_POST['Grafik_Functions_Global_Styles_HTML'] );
-			$option_modified['behavior-html'] = (int)$_POST['Grafik_Functions_Global_Styles_BehaviorHTML'];
-			$option_modified['save-time'] = time();
-			$option_modified['save-user'] = get_current_user_id();
-			update_option( 'Grafik_Functions_Global_Styles', json_encode( $option_modified ) );
+		if( Grafik_Functions_Global_Nonce() ) {
+			$options[ $key.'-html' ] = Grafik_WriteEncode( $_POST[ $prefix.'HTML'] );
+			$options[ $key.'-mode' ] = (int)$_POST[ $prefix.'Mode' ];
+			$options[ $key.'-save' ] = time().':'.get_current_user_id();
+			Grafik_Functions_Global_PutOptions( $options );
 		}
 
-		#
-		# OPTION USER
-		#
-		$option_modified_user = isset( $option_modified['save-user'] ) ? get_userdata( $option_modified['save-user'] ) : array();
-
-		#
-		# OUTPUT DATA
-		#
-		return
-		'<form method="POST">'.
-			'<p><textarea name="Grafik_Functions_Global_Styles_HTML">'.Grafik_PrefillTextarea( $option_modified['html'] ).'</textarea></p>'.
-			'<p>'.Grafik_Functions_Global_SelectBehavior( 'Grafik_Functions_Global_Styles_BehaviorHTML', $option_modified['behavior-html'] ).'</p>'.
-			'<hr/>'.
-			'<button type="submit" class="button button-primary button-large">Save Changes</button>'.
-			'<span class="last-update">Last Updated: '.( empty( $option_modified['save-time'] ) ? 'Never...' : date("l, F jS, Y @ g:i A", $option_modified['save-time'] ).' by '.$option_modified_user->display_name ).'</span>'.
-			wp_nonce_field( 'Grafik_Functions_Global_Styles_Nonce', 'Grafik_Functions_Global_Styles_Nonce', true, false ).
-		'</form>';
+		return Grafik_Functions_Global_InputFields( $key, $options ).'<!--'.print_r($options,true).'-->';
 
 	}
 
 	function Grafik_Functions_Global_Header() {
 
-		#
-		# STORED OPTION
-		#
-		$option_stored = json_decode( get_option('Grafik_Functions_Global_Header', '[]'), true );
+		$key = 'header';
+		$prefix = 'Grafik_Functions_Global_Header_';
+		$options = array_replace(
+			Grafik_GetTemplateStructure( array() ),
+			Grafik_Functions_Global_GetOptions()
+		);
 
-		#
-		# UPDATE OPTION
-		#
-		$option_modified = $option_stored;
-		if( isset( $_POST[ 'Grafik_Functions_Global_Header_Nonce' ] ) && wp_verify_nonce( $_POST[ 'Grafik_Functions_Global_Header_Nonce' ], 'Grafik_Functions_Global_Header_Nonce' ) ) {
-			$option_modified['tl'] = Grafik_WriteEncode( $_POST['Grafik_Functions_Global_Header_TL'] );
-			$option_modified['tr'] = Grafik_WriteEncode( $_POST['Grafik_Functions_Global_Header_TR'] );
-			$option_modified['ml'] = Grafik_WriteEncode( $_POST['Grafik_Functions_Global_Header_ML'] );
-			$option_modified['mr'] = Grafik_WriteEncode( $_POST['Grafik_Functions_Global_Header_MR'] );
-			$option_modified['bl'] = Grafik_WriteEncode( $_POST['Grafik_Functions_Global_Header_BL'] );
-			$option_modified['br'] = Grafik_WriteEncode( $_POST['Grafik_Functions_Global_Header_BR'] );
-			$option_modified['behavior-tl'] = (int)$_POST['Grafik_Functions_Global_Header_BehaviorTL'];
-			$option_modified['behavior-tr'] = (int)$_POST['Grafik_Functions_Global_Header_BehaviorTR'];
-			$option_modified['behavior-ml'] = (int)$_POST['Grafik_Functions_Global_Header_BehaviorML'];
-			$option_modified['behavior-mr'] = (int)$_POST['Grafik_Functions_Global_Header_BehaviorMR'];
-			$option_modified['behavior-bl'] = (int)$_POST['Grafik_Functions_Global_Header_BehaviorBL'];
-			$option_modified['behavior-br'] = (int)$_POST['Grafik_Functions_Global_Header_BehaviorBR'];
-			$option_modified['save-time'] = time();
-			$option_modified['save-user'] = get_current_user_id();
-			update_option( 'Grafik_Functions_Global_Header', json_encode( $option_modified ) );
+		if( Grafik_Functions_Global_Nonce() ) {
+			$options[ $key.'-tl-html' ] = Grafik_WriteEncode( $_POST[ $prefix.'TopLeftHTML' ] );
+			$options[ $key.'-tr-html' ] = Grafik_WriteEncode( $_POST[ $prefix.'TopRightHTML' ] );
+			$options[ $key.'-ml-html' ] = Grafik_WriteEncode( $_POST[ $prefix.'MiddleLeftHTML' ] );
+			$options[ $key.'-mr-html' ] = Grafik_WriteEncode( $_POST[ $prefix.'MiddleRightHTML' ] );
+			$options[ $key.'-bl-html' ] = Grafik_WriteEncode( $_POST[ $prefix.'BottomLeftHTML' ] );
+			$options[ $key.'-br-html' ] = Grafik_WriteEncode( $_POST[ $prefix.'BottomRightHTML' ] );
+			$options[ $key.'-tl-mode' ] = (int)$_POST[ $prefix.'TopLeftMode' ];
+			$options[ $key.'-tr-mode' ] = (int)$_POST[ $prefix.'TopRightMode' ];
+			$options[ $key.'-ml-mode' ] = (int)$_POST[ $prefix.'MiddleLeftMode' ];
+			$options[ $key.'-mr-mode' ] = (int)$_POST[ $prefix.'MiddleRightMode' ];
+			$options[ $key.'-bl-mode' ] = (int)$_POST[ $prefix.'BottomLeftMode' ];
+			$options[ $key.'-br-mode' ] = (int)$_POST[ $prefix.'BottomRightMode' ];
+			$options[ $key.'-save' ] = time().':'.get_current_user_id();
+			Grafik_Functions_Global_PutOptions( $options );
 		}
 
-		#
-		# OPTION USER
-		#
-		$option_modified_user = isset( $option_modified['save-user'] ) ? get_userdata( $option_modified['save-user'] ) : array();
-
-		#
-		# OUTPUT DATA
-		#
-		return
-		'<form method="POST">'.
-			'<table>'.
-				'<tr>'.
-					'<td>'.
-						'<p><strong>Top Left:</strong></p>'.
-						'<p><textarea name="Grafik_Functions_Global_Header_TL">'.Grafik_PrefillTextarea( $option_modified['tl'] ).'</textarea></p>'.
-						'<p>'.Grafik_Functions_Global_SelectBehavior( 'Grafik_Functions_Global_Header_BehaviorTL', $option_modified['behavior-tl'] ).'</p>'.
-					'</td>'.
-					'<td>'.
-						'<p><strong>Top Right:</strong></p>'.
-						'<p><textarea name="Grafik_Functions_Global_Header_TR">'.Grafik_PrefillTextarea( $option_modified['tr'] ).'</textarea></p>'.
-						'<p>'.Grafik_Functions_Global_SelectBehavior( 'Grafik_Functions_Global_Header_BehaviorTR', $option_modified['behavior-tr'] ).'</p>'.
-					'</td>'.
-				'</tr>'.
-				'<tr>'.
-					'<td>'.
-						'<p><strong>Middle Left:</strong></p>'.
-						'<p><textarea name="Grafik_Functions_Global_Header_ML">'.Grafik_PrefillTextarea( $option_modified['ml'] ).'</textarea></p>'.
-						'<p>'.Grafik_Functions_Global_SelectBehavior( 'Grafik_Functions_Global_Header_BehaviorML', $option_modified['behavior-ml'] ).'</p>'.
-					'</td>'.
-					'<td>'.
-						'<p><strong>Middle Right:</strong></p>'.
-						'<p><textarea name="Grafik_Functions_Global_Header_MR">'.Grafik_PrefillTextarea( $option_modified['mr'] ).'</textarea></p>'.
-						'<p>'.Grafik_Functions_Global_SelectBehavior( 'Grafik_Functions_Global_Header_BehaviorMR', $option_modified['behavior-mr'] ).'</p>'.
-					'</td>'.
-				'</tr>'.
-				'<tr>'.
-					'<td>'.
-						'<p><strong>Bottom Left:</strong></p>'.
-						'<p><textarea name="Grafik_Functions_Global_Header_BL">'.Grafik_PrefillTextarea( $option_modified['bl'] ).'</textarea></p>'.
-						'<p>'.Grafik_Functions_Global_SelectBehavior( 'Grafik_Functions_Global_Header_BehaviorBL', $option_modified['behavior-bl'] ).'</p>'.
-					'</td>'.
-					'<td>'.
-						'<p><strong>Bottom Right:</strong></p>'.
-						'<p><textarea name="Grafik_Functions_Global_Header_BR">'.Grafik_PrefillTextarea( $option_modified['br'] ).'</textarea></p>'.
-						'<p>'.Grafik_Functions_Global_SelectBehavior( 'Grafik_Functions_Global_Header_BehaviorBR', $option_modified['behavior-br'] ).'</p>'.
-					'</td>'.
-				'</tr>'.
-			'</table>'.
-			'<hr/>'.
-			'<button type="submit" class="button button-primary button-large">Save Changes</button>'.
-			'<span class="last-update">Last Updated: '.( empty( $option_modified['save-time'] ) ? 'Never...' : date("l, F jS, Y @ g:i A", $option_modified['save-time'] ).' by '.$option_modified_user->display_name ).'</span>'.
-			wp_nonce_field( 'Grafik_Functions_Global_Header_Nonce', 'Grafik_Functions_Global_Header_Nonce', true, false ).
-		'</form>';
+		return Grafik_Functions_Global_InputFields( $key, $options ).'<!--'.print_r($options,true).'-->';
 
 	}
 
 	function Grafik_Functions_Global_Content() {
 
-		#
-		# STORED OPTION
-		#
-		$option_stored = json_decode( get_option('Grafik_Functions_Global_Content', '[]'), true );
+		$key = 'content';
+		$prefix = 'Grafik_Functions_Global_Content_';
+		$options = array_replace(
+			Grafik_GetTemplateStructure( array() ),
+			Grafik_Functions_Global_GetOptions()
+		);
 
-		#
-		# UPDATE OPTION
-		#
-		$option_modified = $option_stored;
-		if( isset( $_POST[ 'Grafik_Functions_Global_Content_Nonce' ] ) && wp_verify_nonce( $_POST[ 'Grafik_Functions_Global_Content_Nonce' ], 'Grafik_Functions_Global_Content_Nonce' ) ) {
-			$option_modified['t'] = Grafik_WriteEncode( $_POST['Grafik_Functions_Global_Content_T'] );
-			$option_modified['l'] = Grafik_WriteEncode( $_POST['Grafik_Functions_Global_Content_L'] );
-			$option_modified['c'] = Grafik_WriteEncode( $_POST['Grafik_Functions_Global_Content_C'] );
-			$option_modified['r'] = Grafik_WriteEncode( $_POST['Grafik_Functions_Global_Content_R'] );
-			$option_modified['b'] = Grafik_WriteEncode( $_POST['Grafik_Functions_Global_Content_B'] );
-			$option_modified['behavior-t'] = (int)$_POST['Grafik_Functions_Global_Content_BehaviorT'];
-			$option_modified['behavior-l'] = (int)$_POST['Grafik_Functions_Global_Content_BehaviorL'];
-			$option_modified['behavior-c'] = (int)$_POST['Grafik_Functions_Global_Content_BehaviorC'];
-			$option_modified['behavior-r'] = (int)$_POST['Grafik_Functions_Global_Content_BehaviorR'];
-			$option_modified['behavior-b'] = (int)$_POST['Grafik_Functions_Global_Content_BehaviorB'];
-			$option_modified['save-time'] = time();
-			$option_modified['save-user'] = get_current_user_id();
-			update_option( 'Grafik_Functions_Global_Content', json_encode( $option_modified ) );
+		if( Grafik_Functions_Global_Nonce() ) {
+			$options[ $key.'-t-html' ] = Grafik_WriteEncode( $_POST[ $prefix.'TopHTML' ] );
+			$options[ $key.'-l-html' ] = Grafik_WriteEncode( $_POST[ $prefix.'LeftHTML' ] );
+			$options[ $key.'-c-html' ] = Grafik_WriteEncode( $_POST[ $prefix.'CenterHTML' ] );
+			$options[ $key.'-r-html' ] = Grafik_WriteEncode( $_POST[ $prefix.'RightHTML' ] );
+			$options[ $key.'-b-html' ] = Grafik_WriteEncode( $_POST[ $prefix.'BottomHTML' ] );
+			$options[ $key.'-t-mode' ] = (int)$_POST[ $prefix.'TopMode' ];
+			$options[ $key.'-l-mode' ] = (int)$_POST[ $prefix.'LeftMode' ];
+			$options[ $key.'-c-mode' ] = (int)$_POST[ $prefix.'CenterMode' ];
+			$options[ $key.'-r-mode' ] = (int)$_POST[ $prefix.'RightMode' ];
+			$options[ $key.'-b-mode' ] = (int)$_POST[ $prefix.'BottomMode' ];
+			$options[ $key.'-save' ] = time().':'.get_current_user_id();
+			Grafik_Functions_Global_PutOptions( $options );
 		}
 
-		#
-		# OPTION USER
-		#
-		$option_modified_user = isset( $option_modified['save-user'] ) ? get_userdata( $option_modified['save-user'] ) : array();
-
-		#
-		# OUTPUT DATA
-		#
-		return
-		'<form method="POST">'.
-			'<table>'.
-				'<tr>'.
-					'<td colspan="3">'.
-						'<p><strong>Top:</strong></p>'.
-						'<p><textarea name="Grafik_Functions_Global_Content_T">'.Grafik_PrefillTextarea( $option_modified['t'] ).'</textarea></p>'.
-						'<p>'.Grafik_Functions_Global_SelectBehavior( 'Grafik_Functions_Global_Content_BehaviorT', $option_modified['behavior-t'] ).'</p>'.
-					'</td>'.
-				'</tr>'.
-				'<tr>'.
-					'<td style="width:25%">'.
-						'<p><strong>Left:</strong></p>'.
-						'<p><textarea name="Grafik_Functions_Global_Content_L">'.Grafik_PrefillTextarea( $option_modified['l'] ).'</textarea></p>'.
-						'<p>'.Grafik_Functions_Global_SelectBehavior( 'Grafik_Functions_Global_Content_BehaviorL', $option_modified['behavior-l'] ).'</p>'.
-					'</td>'.
-					'<td style="width:50%">'.
-						'<p><strong>Center:</strong></p>'.
-						'<p><textarea name="Grafik_Functions_Global_Content_C">'.Grafik_PrefillTextarea( $option_modified['c'] ).'</textarea></p>'.
-						'<p>'.Grafik_Functions_Global_SelectBehavior( 'Grafik_Functions_Global_Content_BehaviorC', $option_modified['behavior-c'] ).'</p>'.
-					'</td>'.
-					'<td style="width:25%">'.
-						'<p><strong>Right:</strong></p>'.
-						'<p><textarea name="Grafik_Functions_Global_Content_R">'.Grafik_PrefillTextarea( $option_modified['r'] ).'</textarea></p>'.
-						'<p>'.Grafik_Functions_Global_SelectBehavior( 'Grafik_Functions_Global_Content_BehaviorR', $option_modified['behavior-r'] ).'</p>'.
-					'</td>'.
-				'</tr>'.
-				'<tr>'.
-					'<td colspan="3">'.
-						'<p><strong>Bottom:</strong></p>'.
-						'<p><textarea name="Grafik_Functions_Global_Content_B">'.Grafik_PrefillTextarea( $option_modified['b'] ).'</textarea></p>'.
-						'<p>'.Grafik_Functions_Global_SelectBehavior( 'Grafik_Functions_Global_Content_BehaviorB', $option_modified['behavior-b'] ).'</p>'.
-					'</td>'.
-				'</tr>'.
-			'</table>'.
-			'<hr/>'.
-			'<button type="submit" class="button button-primary button-large">Save Changes</button>'.
-			'<span class="last-update">Last Updated: '.( empty( $option_modified['save-time'] ) ? 'Never...' : date("l, F jS, Y @ g:i A", $option_modified['save-time'] ).' by '.$option_modified_user->display_name ).'</span>'.
-			wp_nonce_field( 'Grafik_Functions_Global_Content_Nonce', 'Grafik_Functions_Global_Content_Nonce', true, false ).
-		'</form>';
+		return Grafik_Functions_Global_InputFields( $key, $options ).'<!--'.print_r($options,true).'-->';
 
 	}
 
 	function Grafik_Functions_Global_Footer() {
 
-		#
-		# STORED OPTION
-		#
-		$option_stored = json_decode( get_option('Grafik_Functions_Global_Footer', '[]'), true );
+		$key = 'footer';
+		$prefix = 'Grafik_Functions_Global_Footer_';
+		$options = array_replace(
+			Grafik_GetTemplateStructure( array() ),
+			Grafik_Functions_Global_GetOptions()
+		);
 
-		#
-		# UPDATE OPTION
-		#
-		$option_modified = $option_stored;
-		if( isset( $_POST[ 'Grafik_Functions_Global_Footer_Nonce' ] ) && wp_verify_nonce( $_POST[ 'Grafik_Functions_Global_Footer_Nonce' ], 'Grafik_Functions_Global_Footer_Nonce' ) ) {
-			$option_modified['tl'] = Grafik_WriteEncode( $_POST['Grafik_Functions_Global_Footer_TL'] );
-			$option_modified['tr'] = Grafik_WriteEncode( $_POST['Grafik_Functions_Global_Footer_TR'] );
-			$option_modified['ml'] = Grafik_WriteEncode( $_POST['Grafik_Functions_Global_Footer_ML'] );
-			$option_modified['mr'] = Grafik_WriteEncode( $_POST['Grafik_Functions_Global_Footer_MR'] );
-			$option_modified['bl'] = Grafik_WriteEncode( $_POST['Grafik_Functions_Global_Footer_BL'] );
-			$option_modified['br'] = Grafik_WriteEncode( $_POST['Grafik_Functions_Global_Footer_BR'] );
-			$option_modified['behavior-tl'] = (int)$_POST['Grafik_Functions_Global_Footer_BehaviorTL'];
-			$option_modified['behavior-tr'] = (int)$_POST['Grafik_Functions_Global_Footer_BehaviorTR'];
-			$option_modified['behavior-ml'] = (int)$_POST['Grafik_Functions_Global_Footer_BehaviorML'];
-			$option_modified['behavior-mr'] = (int)$_POST['Grafik_Functions_Global_Footer_BehaviorMR'];
-			$option_modified['behavior-bl'] = (int)$_POST['Grafik_Functions_Global_Footer_BehaviorBL'];
-			$option_modified['behavior-br'] = (int)$_POST['Grafik_Functions_Global_Footer_BehaviorBR'];
-			$option_modified['save-time'] = time();
-			$option_modified['save-user'] = get_current_user_id();
-			update_option( 'Grafik_Functions_Global_Footer', json_encode( $option_modified ) );
+		if( Grafik_Functions_Global_Nonce() ) {
+			$options[ $key.'-tl-html' ] = Grafik_WriteEncode( $_POST[ $prefix.'TopLeftHTML' ] );
+			$options[ $key.'-tr-html' ] = Grafik_WriteEncode( $_POST[ $prefix.'TopRightHTML' ] );
+			$options[ $key.'-ml-html' ] = Grafik_WriteEncode( $_POST[ $prefix.'MiddleLeftHTML' ] );
+			$options[ $key.'-mr-html' ] = Grafik_WriteEncode( $_POST[ $prefix.'MiddleRightHTML' ] );
+			$options[ $key.'-bl-html' ] = Grafik_WriteEncode( $_POST[ $prefix.'BottomLeftHTML' ] );
+			$options[ $key.'-br-html' ] = Grafik_WriteEncode( $_POST[ $prefix.'BottomRightHTML' ] );
+			$options[ $key.'-tl-mode' ] = (int)$_POST[ $prefix.'TopLeftMode' ];
+			$options[ $key.'-tr-mode' ] = (int)$_POST[ $prefix.'TopRightMode' ];
+			$options[ $key.'-ml-mode' ] = (int)$_POST[ $prefix.'MiddleLeftMode' ];
+			$options[ $key.'-mr-mode' ] = (int)$_POST[ $prefix.'MiddleRightMode' ];
+			$options[ $key.'-bl-mode' ] = (int)$_POST[ $prefix.'BottomLeftMode' ];
+			$options[ $key.'-br-mode' ] = (int)$_POST[ $prefix.'BottomRightMode' ];
+			$options[ $key.'-save' ] = time().':'.get_current_user_id();
+			Grafik_Functions_Global_PutOptions( $options );
 		}
 
-		#
-		# OPTION USER
-		#
-		$option_modified_user = isset( $option_modified['save-user'] ) ? get_userdata( $option_modified['save-user'] ) : array();
-
-		#
-		# OUTPUT DATA
-		#
-		return
-		'<form method="POST">'.
-			'<table>'.
-				'<tr>'.
-					'<td>'.
-						'<p><strong>Top Left:</strong></p>'.
-						'<p><textarea name="Grafik_Functions_Global_Footer_TL">'.Grafik_PrefillTextarea( $option_modified['tl'] ).'</textarea></p>'.
-						'<p>'.Grafik_Functions_Global_SelectBehavior( 'Grafik_Functions_Global_Footer_BehaviorTL', $option_modified['behavior-tl'] ).'</p>'.
-					'</td>'.
-					'<td>'.
-						'<p><strong>Top Right:</strong></p>'.
-						'<p><textarea name="Grafik_Functions_Global_Footer_TR">'.Grafik_PrefillTextarea( $option_modified['tr'] ).'</textarea></p>'.
-						'<p>'.Grafik_Functions_Global_SelectBehavior( 'Grafik_Functions_Global_Footer_BehaviorTR', $option_modified['behavior-tr'] ).'</p>'.
-					'</td>'.
-				'</tr>'.
-				'<tr>'.
-					'<td>'.
-						'<p><strong>Middle Left:</strong></p>'.
-						'<p><textarea name="Grafik_Functions_Global_Footer_ML">'.Grafik_PrefillTextarea( $option_modified['ml'] ).'</textarea></p>'.
-						'<p>'.Grafik_Functions_Global_SelectBehavior( 'Grafik_Functions_Global_Footer_BehaviorML', $option_modified['behavior-ml'] ).'</p>'.
-					'</td>'.
-					'<td>'.
-						'<p><strong>Middle Right:</strong></p>'.
-						'<p><textarea name="Grafik_Functions_Global_Footer_MR">'.Grafik_PrefillTextarea( $option_modified['mr'] ).'</textarea></p>'.
-						'<p>'.Grafik_Functions_Global_SelectBehavior( 'Grafik_Functions_Global_Footer_BehaviorMR', $option_modified['behavior-mr'] ).'</p>'.
-					'</td>'.
-				'</tr>'.
-				'<tr>'.
-					'<td>'.
-						'<p><strong>Bottom Left:</strong></p>'.
-						'<p><textarea name="Grafik_Functions_Global_Footer_BL">'.Grafik_PrefillTextarea( $option_modified['bl'] ).'</textarea></p>'.
-						'<p>'.Grafik_Functions_Global_SelectBehavior( 'Grafik_Functions_Global_Footer_BehaviorBL', $option_modified['behavior-bl'] ).'</p>'.
-					'</td>'.
-					'<td>'.
-						'<p><strong>Bottom Right:</strong></p>'.
-						'<p><textarea name="Grafik_Functions_Global_Footer_BR">'.Grafik_PrefillTextarea( $option_modified['br'] ).'</textarea></p>'.
-						'<p>'.Grafik_Functions_Global_SelectBehavior( 'Grafik_Functions_Global_Footer_BehaviorBR', $option_modified['behavior-br'] ).'</p>'.
-					'</td>'.
-				'</tr>'.
-			'</table>'.
-			'<hr/>'.
-			'<button type="submit" class="button button-primary button-large">Save Changes</button>'.
-			'<span class="last-update">Last Updated: '.( empty( $option_modified['save-time'] ) ? 'Never...' : date("l, F jS, Y @ g:i A", $option_modified['save-time'] ).' by '.$option_modified_user->display_name ).'</span>'.
-			wp_nonce_field( 'Grafik_Functions_Global_Footer_Nonce', 'Grafik_Functions_Global_Footer_Nonce', true, false ).
-		'</form>';
+		return Grafik_Functions_Global_InputFields( $key, $options ).'<!--'.print_r($options,true).'-->';
 
 	}
 
 	function Grafik_Functions_Global_Scripts() {
 
-		#
-		# STORED OPTION
-		#
-		$option_stored = json_decode( get_option('Grafik_Functions_Global_Scripts', '[]'), true );
+		$key = 'scripts';
+		$prefix = 'Grafik_Functions_Global_Scripts_';
+		$options = array_replace(
+			Grafik_GetTemplateStructure( array() ),
+			Grafik_Functions_Global_GetOptions()
+		);
 
-		#
-		# UPDATE OPTION
-		#
-		$option_modified = $option_stored;
-		if( isset( $_POST[ 'Grafik_Functions_Global_Scripts_Nonce' ] ) && wp_verify_nonce( $_POST[ 'Grafik_Functions_Global_Scripts_Nonce' ], 'Grafik_Functions_Global_Scripts_Nonce' ) ) {
-			$option_modified['html'] = Grafik_WriteEncode( $_POST['Grafik_Functions_Global_Scripts_HTML'] );
-			$option_modified['behavior-html'] = (int)$_POST['Grafik_Functions_Global_Scripts_BehaviorHTML'];
-			$option_modified['save-time'] = time();
-			$option_modified['save-user'] = get_current_user_id();
-			update_option( 'Grafik_Functions_Global_Scripts', json_encode( $option_modified ) );
+		if( Grafik_Functions_Global_Nonce() ) {
+			$options[ $key.'-head-html' ] = Grafik_WriteEncode( $_POST[ $prefix.'HeadHTML' ] );
+			$options[ $key.'-intro-html' ] = Grafik_WriteEncode( $_POST[ $prefix.'IntroHTML' ] );
+			$options[ $key.'-outro-html' ] = Grafik_WriteEncode( $_POST[ $prefix.'OutroHTML' ] );
+			$options[ $key.'-head-mode' ] = (int)$_POST[ $prefix.'HeadMode' ];
+			$options[ $key.'-intro-mode' ] = (int)$_POST[ $prefix.'IntroMode' ];
+			$options[ $key.'-outro-mode' ] = (int)$_POST[ $prefix.'OutroMode' ];
+			$options[ $key.'-save' ] = time().':'.get_current_user_id();
+			Grafik_Functions_Global_PutOptions( $options );
 		}
 
-		#
-		# OPTION USER
-		#
-		$option_modified_user = isset( $option_modified['save-user'] ) ? get_userdata( $option_modified['save-user'] ) : array();
-
-		#
-		# OUTPUT DATA
-		#
-		return
-		'<form method="POST">'.
-			'<p><textarea name="Grafik_Functions_Global_Scripts_HTML">'.Grafik_PrefillTextarea( $option_modified['html'] ).'</textarea></p>'.
-			'<p>'.Grafik_Functions_Global_SelectBehavior( 'Grafik_Functions_Global_Scripts_BehaviorHTML', $option_modified['behavior-html'] ).'</p>'.
-			'<hr/>'.
-			'<button type="submit" class="button button-primary button-large">Save Changes</button>'.
-			'<span class="last-update">Last Updated: '.( empty( $option_modified['save-time'] ) ? 'Never...' : date("l, F jS, Y @ g:i A", $option_modified['save-time'] ).' by '.$option_modified_user->display_name ).'</span>'.
-			wp_nonce_field( 'Grafik_Functions_Global_Scripts_Nonce', 'Grafik_Functions_Global_Scripts_Nonce', true, false ).
-		'</form>';
+		return Grafik_Functions_Global_InputFields( $key, $options ).'<!--'.print_r($options,true).'-->';
 
 	}
 
