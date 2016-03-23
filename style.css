@@ -5,7 +5,7 @@ Author URI: http://www.grafik.com
 Description: The Grafik Engine isn't a theme in the traditional sense of the word, rather it is a framework for rapidly deploying and skinning WordPress websites.
 License: Copyright 2016 Grafik.com
 License URI: http://choosealicense.com/licenses/no-license/
-Version: 2.0
+Version: 3.0
 Tags: one-column, left-sidebar, right-sidebar, custom-menu, featured-images, full-width-template, theme-options
 Text Domain: grafik-engine
 */
@@ -75,7 +75,7 @@ Text Domain: grafik-engine
 	.grafik-functions-display { margin: -10px 0 0 0; border: 10px solid #000; padding: 5px; background: #fff; position: relative; z-index: 2; }
 	.grafik-functions-display:after { content: ""; clear: both; display: block; float: none; height: 0; }
 
-	.grafik-functions-primarynav { float: left; }
+	.grafik-functions-primarynav { /* float: left; */ position: absolute; }
 	.grafik-functions-primarynav ul { margin: 0; padding: 0; width: 200px; list-style-type: none; }
 	.grafik-functions-primarynav li { margin: 5px 0 0 0; padding: 0 5px 0 0; }
 	.grafik-functions-primarynav li:first-child { margin: 0; }
@@ -201,3 +201,104 @@ Text Domain: grafik-engine
 	#grafik-admin-controls .controls-nav ul li .layout-header { background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAzMCAzMCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBhdGggZD0iTTI3LDE1YzAsMS42NTctMS4zNDMsMy0zLDNINmMtMS42NTcsMC0zLTEuMzQzLTMtM3MxLjM0My0zLDMtM2gxOEMyNS42NTcsMTIsMjcsMTMuMzQzLDI3LDE1eiBNMjQsMjFINmMtMS42NTcsMC0zLDEuMzQzLTMsM3MxLjM0MywzLDMsM2gxOGMxLjY1NywwLDMtMS4zNDMsMy0zUzI1LjY1NywyMSwyNCwyMXogTTI3LDZjMCwxLjY1Ny0xLjM0MywzLTMsM0g2QzQuMzQzLDksMyw3LjY1NywzLDZzMS4zNDMtMywzLTNoMThDMjUuNjU3LDMsMjcsNC4zNDMsMjcsNnogTTI2LDZjMC0xLjEwNS0wLjg5NS0yLTItMkg2QzQuODk1LDQsNCw0Ljg5NSw0LDZjMCwxLjEwNSwwLjg5NSwyLDIsMmgxOEMyNS4xMDUsOCwyNiw3LjEwNSwyNiw2eiBNMzEtMXYzMkgtMVYtMUgzMXogTTI4LDI0YzAtMi4yMDktMS43OTEtNC00LTRINmMtMi4yMDksMC00LDEuNzkxLTQsNGMwLDIuMjA5LDEuNzkxLDQsNCw0aDE4QzI2LjIwOSwyOCwyOCwyNi4yMDksMjgsMjR6IE0yOCwxNWMwLTIuMjA5LTEuNzkxLTQtNC00SDZjLTIuMjA5LDAtNCwxLjc5MS00LDRjMCwyLjIwOSwxLjc5MSw0LDQsNGgxOEMyNi4yMDksMTksMjgsMTcuMjA5LDI4LDE1ek0yOCw2YzAtMi4yMDktMS43OTEtNC00LTRINkMzLjc5MSwyLDIsMy43OTEsMiw2YzAsMi4yMDksMS43OTEsNCw0LDRoMThDMjYuMjA5LDEwLDI4LDguMjA5LDI4LDZ6Ii8+PC9zdmc+"); }
 	#grafik-admin-controls .controls-nav ul li .layout-content { background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAzMCAzMCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBhdGggZD0iTTI3LDE1YzAsMS42NTctMS4zNDMsMy0zLDNINmMtMS42NTcsMC0zLTEuMzQzLTMtM3MxLjM0My0zLDMtM2gxOEMyNS42NTcsMTIsMjcsMTMuMzQzLDI3LDE1eiBNMjQsMjFINmMtMS42NTcsMC0zLDEuMzQzLTMsM3MxLjM0MywzLDMsM2gxOGMxLjY1NywwLDMtMS4zNDMsMy0zUzI1LjY1NywyMSwyNCwyMXogTTI3LDZjMCwxLjY1Ny0xLjM0MywzLTMsM0g2QzQuMzQzLDksMyw3LjY1NywzLDZzMS4zNDMtMywzLTNoMThDMjUuNjU3LDMsMjcsNC4zNDMsMjcsNnogTTI2LDE1YzAtMS4xMDUtMC44OTUtMi0yLTJINmMtMS4xMDUsMC0yLDAuODk1LTIsMmMwLDEuMTA1LDAuODk1LDIsMiwyaDE4QzI1LjEwNSwxNywyNiwxNi4xMDUsMjYsMTV6IE0zMS0xdjMySC0xVi0xSDMxeiBNMjgsMjRjMC0yLjIwOS0xLjc5MS00LTQtNEg2Yy0yLjIwOSwwLTQsMS43OTEtNCw0YzAsMi4yMDksMS43OTEsNCw0LDRoMThDMjYuMjA5LDI4LDI4LDI2LjIwOSwyOCwyNHogTTI4LDE1YzAtMi4yMDktMS43OTEtNC00LTRINmMtMi4yMDksMC00LDEuNzkxLTQsNGMwLDIuMjA5LDEuNzkxLDQsNCw0aDE4QzI2LjIwOSwxOSwyOCwxNy4yMDksMjgsMTV6TTI4LDZjMC0yLjIwOS0xLjc5MS00LTQtNEg2QzMuNzkxLDIsMiwzLjc5MSwyLDZjMCwyLjIwOSwxLjc5MSw0LDQsNGgxOEMyNi4yMDksMTAsMjgsOC4yMDksMjgsNnoiLz48L3N2Zz4="); }
 	#grafik-admin-controls .controls-nav ul li .layout-footer { background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAzMCAzMCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBhdGggZD0iTS0xLTF2MzJoMzJWLTFILTF6IE0yNCwyOEg2Yy0yLjIwOSwwLTQtMS43OTEtNC00YzAtMi4yMDksMS43OTEtNCw0LTRoMThjMi4yMDksMCw0LDEuNzkxLDQsNEMyOCwyNi4yMDksMjYuMjA5LDI4LDI0LDI4ek0yNCwxOUg2Yy0yLjIwOSwwLTQtMS43OTEtNC00YzAtMi4yMDksMS43OTEtNCw0LTRoMThjMi4yMDksMCw0LDEuNzkxLDQsNEMyOCwxNy4yMDksMjYuMjA5LDE5LDI0LDE5eiBNMjQsMTBINmMtMi4yMDksMC00LTEuNzkxLTQtNGMwLTIuMjA5LDEuNzkxLTQsNC00aDE4YzIuMjA5LDAsNCwxLjc5MSw0LDRDMjgsOC4yMDksMjYuMjA5LDEwLDI0LDEweiBNMjQsMjFINmMtMS42NTcsMC0zLDEuMzQzLTMsM3MxLjM0MywzLDMsM2gxOGMxLjY1NywwLDMtMS4zNDMsMy0zUzI1LjY1NywyMSwyNCwyMXogTTI0LDI2SDZjLTEuMTA1LDAtMi0wLjg5NS0yLTJjMC0xLjEwNSwwLjg5NS0yLDItMmgxOGMxLjEwNSwwLDIsMC44OTUsMiwyQzI2LDI1LjEwNSwyNS4xMDUsMjYsMjQsMjZ6IE0yNyw2YzAsMS42NTctMS4zNDMsMy0zLDNINkM0LjM0Myw5LDMsNy42NTcsMyw2czEuMzQzLTMsMy0zaDE4QzI1LjY1NywzLDI3LDQuMzQzLDI3LDZ6IE0yNywxNWMwLDEuNjU3LTEuMzQzLDMtMywzSDZjLTEuNjU3LDAtMy0xLjM0My0zLTNzMS4zNDMtMywzLTNoMThDMjUuNjU3LDEyLDI3LDEzLjM0MywyNywxNXoiLz48L3N2Zz4="); }
+
+/*
+ * TEMPLATE EDITOR
+ */
+
+	@media (min-width: 0px) {
+
+		#Grafik_Templates_Styles fieldset,
+		#Grafik_Templates_Header fieldset,
+		#Grafik_Templates_Content fieldset,
+		#Grafik_Templates_Footer fieldset,
+		#Grafik_Templates_Scripts fieldset
+		{
+			display: block;
+			margin: 10px 0;
+		}
+
+		#Grafik_Templates_Styles fieldset legend,
+		#Grafik_Templates_Header fieldset legend,
+		#Grafik_Templates_Content fieldset legend,
+		#Grafik_Templates_Footer fieldset legend,
+		#Grafik_Templates_Scripts fieldset legend
+		{
+			font-weight: bold;
+		}
+
+	}
+
+	@media (min-width: 961px) {
+
+		#Grafik_Templates_Styles fieldset,
+		#Grafik_Templates_Header fieldset,
+		#Grafik_Templates_Content fieldset,
+		#Grafik_Templates_Footer fieldset,
+		#Grafik_Templates_Scripts fieldset
+		{
+			float: left;
+			width: 100%;
+		}
+
+		#Grafik_Templates_Styles fieldset.Styles_Head,
+		#Grafik_Templates_Styles hr,
+		#Grafik_Templates_Header fieldset.Header_TopLeft,
+		#Grafik_Templates_Header fieldset.Header_MiddleLeft,
+		#Grafik_Templates_Header fieldset.Header_BottomLeft,
+		#Grafik_Templates_Header hr,
+		#Grafik_Templates_Content fieldset.Content_Top,
+		#Grafik_Templates_Content fieldset.Content_Left,
+		#Grafik_Templates_Content fieldset.Content_Bottom,
+		#Grafik_Templates_Content hr,
+		#Grafik_Templates_Footer fieldset.Footer_TopLeft,
+		#Grafik_Templates_Footer fieldset.Footer_MiddleLeft,
+		#Grafik_Templates_Footer fieldset.Footer_BottomLeft,
+		#Grafik_Templates_Footer hr,
+		#Grafik_Templates_Scripts fieldset.Scripts_Head,
+		#Grafik_Templates_Scripts fieldset.Scripts_Intro,
+		#Grafik_Templates_Scripts fieldset.Scripts_Outro,
+		#Grafik_Templates_Scripts hr
+		{
+			clear: left;
+		}
+
+		#Grafik_Templates_Header fieldset.Header_TopLeft,
+		#Grafik_Templates_Header fieldset.Header_MiddleLeft,
+		#Grafik_Templates_Header fieldset.Header_BottomLeft,
+		#Grafik_Templates_Footer fieldset.Footer_TopLeft,
+		#Grafik_Templates_Footer fieldset.Footer_MiddleLeft,
+		#Grafik_Templates_Footer fieldset.Footer_BottomLeft
+		{
+			width: 50%;
+			padding: 0 10px 0 0;
+		}
+
+		#Grafik_Templates_Header fieldset.Header_TopRight,
+		#Grafik_Templates_Header fieldset.Header_MiddleRight,
+		#Grafik_Templates_Header fieldset.Header_BottomRight,
+		#Grafik_Templates_Footer fieldset.Footer_TopRight,
+		#Grafik_Templates_Footer fieldset.Footer_MiddleRight,
+		#Grafik_Templates_Footer fieldset.Footer_BottomRight
+		{
+			width: 50%;
+			padding: 0 0 0 10px;
+		}
+
+		#Grafik_Templates_Content fieldset.Content_Left
+		{
+			width: 33.3333333333%;
+			padding: 0 13.333333333px 0 0;
+		}
+		#Grafik_Templates_Content fieldset.Content_Center
+		{
+			width: 33.3333333333%;
+			padding: 0 6.6666666666px;
+		}
+		#Grafik_Templates_Content fieldset.Content_Right
+		{
+			width: 33.3333333333%;
+			padding: 0 0 0 13.333333333px;
+		}
+
+	}

@@ -254,132 +254,15 @@
 		'</div>';
 	}
 
-	function Grafik_GetTemplateStructure( $inherit ) {
-
-		$mode = empty( $inherit ) ? 1 : 2;
-
-		$stack = array(
-			'styles-html' => null, 'styles-mode' => $mode,
-			'header-tl-html' => null, 'header-tl-mode' => $mode,
-			'header-tr-html' => null, 'header-tr-mode' => $mode,
-			'header-ml-html' => null, 'header-ml-mode' => $mode,
-			'header-mr-html' => null, 'header-mr-mode' => $mode,
-			'header-bl-html' => null, 'header-bl-mode' => $mode,
-			'header-br-html' => null, 'header-br-mode' => $mode,
-			'content-t-html' => null, 'content-t-mode' => $mode,
-			'content-l-html' => null, 'content-l-mode' => $mode,
-			'content-c-html' => null, 'content-c-mode' => $mode,
-			'content-r-html' => null, 'content-r-mode' => $mode,
-			'content-b-html' => null, 'content-b-mode' => $mode,
-			'footer-tl-html' => null, 'footer-tl-mode' => $mode,
-			'footer-tr-html' => null, 'footer-tr-mode' => $mode,
-			'footer-ml-html' => null, 'footer-ml-mode' => $mode,
-			'footer-mr-html' => null, 'footer-mr-mode' => $mode,
-			'footer-bl-html' => null, 'footer-bl-mode' => $mode,
-			'footer-br-html' => null, 'footer-br-mode' => $mode,
-			'scripts-head-html' => null, 'scripts-head-mode' => $mode,
-			'scripts-intro-html' => null, 'scripts-intro-mode' => $mode,
-			'scripts-outro-html' => null, 'scripts-outro-mode' => $mode
-		);
-
-		foreach( $inherit as $key ) {
-			$group = array(
-				$key.'-styles-mode' => 1,
-				$key.'-header-tl-mode' => 1,
-				$key.'-header-tr-mode' => 1,
-				$key.'-header-ml-mode' => 1,
-				$key.'-header-mr-mode' => 1,
-				$key.'-header-bl-mode' => 1,
-				$key.'-header-br-mode' => 1,
-				$key.'-content-t-mode' => 1,
-				$key.'-content-l-mode' => 1,
-				$key.'-content-c-mode' => 1,
-				$key.'-content-r-mode' => 1,
-				$key.'-content-b-mode' => 1,
-				$key.'-footer-tl-mode' => 1,
-				$key.'-footer-tr-mode' => 1,
-				$key.'-footer-ml-mode' => 1,
-				$key.'-footer-mr-mode' => 1,
-				$key.'-footer-bl-mode' => 1,
-				$key.'-footer-br-mode' => 1,
-				$key.'-scripts-head-mode' => 1,
-				$key.'-scripts-intro-mode' => 1,
-				$key.'-scripts-outro-mode' => 1
-			);
-			$stack = array_merge( $stack, $group );
-		}
-
-		return $stack;
-
-	}
-
-	function Grafik_GetTemplateAssembly( $mode ) {
-
-		// INHERITANCE TREE
-		$atts = array(
-			'global' => array(
-				'options' => 'Grafik_Templates_Global',
-				'inherit' => array(),
-				'mode' => false
-			),
-			'pages' => array(
-				'options' => 'Grafik_Templates_Pages',
-				'inherit' => array( 'global' ),
-				'mode' => false
-			),
-			'not-found' => array(
-				'options' => 'Grafik_Templates_NotFound',
-				'inherit' => array( 'global', 'pages' ),
-				'mode' => false
-			),
-			'search-results' => array(
-				'options' => 'Grafik_Templates_SearchResults',
-				'inherit' => array( 'global', 'pages' ),
-				'mode' => false
-			),
-			'archives' => array(
-				'options' => 'Grafik_Templates_Archives',
-				'inherit' => array( 'global' ),
-				'mode' => false
-			),
-			'archive-type' => array(
-				'options' => 'Grafik_Templates_ArchiveTypes',
-				'inherit' => array( 'global', 'archives' ),
-				'mode' => false
-			),
-			'archive-author' => array(
-				'options' => 'Grafik_Templates_ArchiveAuthors',
-				'inherit' => array( 'global', 'archives' ),
-				'mode' => false
-			),
-			'archive-category' => array(
-				'options' => 'Grafik_Templates_ArchiveCategories',
-				'inherit' => array( 'global', 'archives' ),
-				'mode' => false
-			),
-			'posts' => array(
-				'options' => 'Grafik_Templates_Posts',
-				'inherit' => array( 'global' ),
-				'mode' => false
-			),
-			'post-type' => array(
-				'options' => 'Grafik_Templates_PostTypes',
-				'inherit' => array( 'global', 'posts' ),
-				'mode' => false
-			)
-		);
-
-		$tree = array();
-		foreach( $atts as $key_i => $val_i ) {
-			$tree[ $key_i ] = Grafik_GetTemplateStructure( $val_i[ 'inherit' ] );
-			$options = json_decode( get_option( $val_i[ 'options' ], '[]' ), true );
-			foreach( $options as $key_ii => $val_ii ) {
-				$tree[ $key_i ][ $key_ii ] = Grafik_ReadDecode( $mode ? $val_ii : $val_ii );
+	function Grafik_ContainsKeys( $array, $keys, $strict = false ) {
+		foreach( $keys as $key ) {
+			if( array_key_exists( $key, $array ) ) {
+				if( !$strict ) return true;
+			} else {
+				if( $strict ) return false;
 			}
 		}
-
-		return $tree;
-
+		return true;
 	}
 
 ?>

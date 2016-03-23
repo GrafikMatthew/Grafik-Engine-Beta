@@ -1,57 +1,26 @@
 <?php
 
-	#
-	# SECURE THEME
-	#
+	/*
+
+	888888 88  88 8888o. .o8888 888888 88 .o88o. 8888o. .o8888    8888o. 88  88 8888o.
+	88     88  88 88  88 88       88   88 88  88 88  88 88        88  88 88  88 88  88
+	8888   88  88 88  88 88       88   88 88  88 88  88 'Y88o.    8888Y' 888888 8888Y'
+	88     88  88 88  88 88       88   88 88  88 88  88     88    88     88  88 88    
+	88     'Y88Y' 88  88 'Y8888   88   88 'Y88Y' 88  88 8888Y' 88 88     88  88 88    
+
+	*/
+
 	if( !defined('ABSPATH') ) exit;
 
-	#
-	# INI
-	#
-
-	@ini_set( 'upload_max_size' , '64M' );
-	@ini_set( 'post_max_size', '64M');
-	@ini_set( 'max_execution_time', '300' );
-
-	#
-	# DEPENDENCIES
-	#
-
-	include 'functions/utilities.php';
-
-	include 'admin/metabox.php';
-	include 'admin/categoryfilters.php';
-	include 'admin/posttypes.php';
-	include 'admin/templates.php';
-
-	// include 'integrations/yoast.php';
-
-	foreach( glob( dirname( __FILE__ ).'/shortcodes/*.php' ) as $shortcode ) {
-		include $shortcode;
-	}
-
-	#
-	# THEME CSS
-	#
-
-	add_action( 'admin_enqueue_scripts', 'Grafik_Functions_EnqueueScripts' );
-	function Grafik_Functions_EnqueueScripts() {
-		wp_enqueue_style( 'grafik-css', get_template_directory_uri().'/style.css', false );
-	}
-
-	#
-	# THEME SUPPORT
-	#
+	# SUPPORT
 
 	add_theme_support( 'menus' );
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support( 'html5', array( 'search-form' ) );
 
-	#
-	# THEME FILTERS
-	#
+	# FILTERS
 
- 	add_filter( 'show_admin_bar', '__return_false' );
+	add_filter( 'show_admin_bar', '__return_false' );
 	add_filter( 'get_search_form', function( $form ) {
 
 		return
@@ -66,37 +35,33 @@
 
 	} );
 
-	#
 	# ACTIONS
-	#
 
 	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 	remove_action( 'wp_print_styles', 'print_emoji_styles' );
 
 	add_action( 'init', function() {
 
-		// Menu Locations...
 		register_nav_menus( array(
-			'header-tl' => 'Header (Top Left)',
-			'header-tr' => 'Header (Top Right)',
-			'header-ml' => 'Header (Middle Left)',
-			'header-mr' => 'Header (Middle Right)',
-			'header-bl' => 'Header (Bottom Left)',
-			'header-br' => 'Header (Bottom Right)',
-			'content-t' => 'Content (Top)',
-			'content-l' => 'Content (Left)',
-			'content-c' => 'Content (Center)',
-			'content-r' => 'Content (Right)',
-			'content-b' => 'Content (Bottom)',
-			'footer-tl' => 'Footer (Top Left)',
-			'footer-tr' => 'Footer (Top Right)',
-			'footer-ml' => 'Footer (Middle Left)',
-			'footer-mr' => 'Footer (Middle Right)',
-			'footer-bl' => 'Footer (Bottom Left)',
-			'footer-br' => 'Footer (Bottom Right)'
+			'Header_TopLeft' => 'Header (Top Left)',
+			'Header_TopRight' => 'Header (Top Right)',
+			'Header_MiddleLeft' => 'Header (Middle Left)',
+			'Header_MiddleRight' => 'Header (Middle Right)',
+			'Header_BottomLeft' => 'Header (Bottom Left)',
+			'Header_BottomRight' => 'Header (Bottom Right)',
+			'Content_Top' => 'Content (Top)',
+			'Content_Left' => 'Content (Left)',
+			'Content_Center' => 'Content (Center)',
+			'Content_Right' => 'Content (Right)',
+			'Content_Bottom' => 'Content (Bottom)',
+			'Footer_TopLeft' => 'Footer (Top Left)',
+			'Footer_TopRight' => 'Footer (Top Right)',
+			'Footer_MiddleLeft' => 'Footer (Middle Left)',
+			'Footer_MiddleRight' => 'Footer (Middle Right)',
+			'Footer_BottomLeft' => 'Footer (Bottom Left)',
+			'Footer_BottomRight' => 'Footer (Bottom Right)'
 		) );
 
-		// Custom Types...
 		$Grafik_CustomTypes = json_decode( get_option('Grafik_PostType_Info', '[]'), true );
 		foreach( $Grafik_CustomTypes as $key => $val ) {
 			if( $key == 'save-time' || $key == 'save-user' ) continue;
@@ -125,14 +90,36 @@
 		}
 
 	} );
-
 	add_action( 'admin_init', function() {
 		global $submenu;
 		unset( $submenu[ 'themes.php' ][ 6 ] );
 		remove_submenu_page( 'themes.php', 'theme-editor.php' );
 	}, 102 );
+	add_action( 'admin_enqueue_scripts', function() {
+		wp_enqueue_style(
+			'grafik-css',
+			get_template_directory_uri().'/style.css',
+			false
+		);
+	} );
 
-	// Custom General Options
+	# FUNCTIONS
+
+	include 'functions/filters.php';
+	include 'functions/utilities.php';
+	include 'functions/menus.php';
+	include 'functions/metabox.php';
+	include 'functions/posttypes.php';
+	include 'functions/templates.php';
+
+	# SHORTCODES
+
+	foreach( glob( dirname( __FILE__ ).'/shortcodes/*.php' ) as $shortcode ) {
+		include $shortcode;
+	}
+
+	# OPTIONS
+
 	class Grafik_GeneralSetting_AdminMenu_HidePosts {
 		function Grafik_GeneralSetting_AdminMenu_HidePosts() {
 			add_filter( 'admin_init', array( &$this, 'register_fields' ) );
@@ -161,5 +148,3 @@
 			remove_menu_page( 'edit.php' );
 		} );
 	}
-
-?>
